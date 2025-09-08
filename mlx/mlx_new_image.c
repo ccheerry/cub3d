@@ -138,9 +138,10 @@ void	*mlx_int_new_image(t_xvar *xvar,int width, int height,int format)
 }
 
 
-void	*mlx_new_image(t_xvar *xvar,int width, int height)
+void	*mlx_new_image(void *mlx_ptr,int width, int height)
 {
   t_img	*img;
+  t_xvar *xvar = (t_xvar *)mlx_ptr;
 
   if (xvar->use_xshm)
     if (img = mlx_int_new_xshm_image(xvar,width,height,ZPixmap))
