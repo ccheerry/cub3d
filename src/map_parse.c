@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:41:32 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/10 18:43:37 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/09/12 18:33:40 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,35 @@ static bool	is_map_line(char *line)
 		i++;
 	}
 	return (has_map_char);
+}
+
+static bool	is_map_surrounded(t_map *map)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		while (map->grid[y][x])
+		{
+			if (map->grid[y][x] == '0' || map->grid[y][x] == 'N'
+				|| map->grid[y][x] == 'S' || map->grid[y][x] == 'E'
+				|| map->grid[y][x] == 'W')
+			{
+				if (y == 0 || y == map->height - 1
+					|| x == 0 || x == (int)ft_strlen(map->grid[y]) - 1)
+					return (false);
+				if (map->grid[y - 1][x] == ' ' || map->grid[y + 1][x] == ' '
+					|| map->grid[y][x - 1] == ' ' || map->grid[y][x + 1] == ' ')
+					return (false);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (true);
 }
 
 static bool	parse_map_grid(int fd, t_map *map, char *first_line)
@@ -76,7 +105,7 @@ static bool	parse_map_grid(int fd, t_map *map, char *first_line)
 		line = get_next_line(fd);
 	}
 	map->height = lines.size;
-	if (map->height == 0)
+	if (map->height < 3) // ask but i assume to be surrounded it should have at least 3 rows
 		return (ft_vec_free(&lines), false);
 	map->grid = ft_calloc(map->height + 1, sizeof(char *));
 	i = 0;
@@ -85,7 +114,7 @@ static bool	parse_map_grid(int fd, t_map *map, char *first_line)
 		map->grid[i] = *((char **)ft_vec_get(&lines, i));
 		i++;
 	}
-	return (ft_vec_free(&lines), true);
+	return (ft_vec_free(&lines), is_map_surrounded(map));
 }
 
 static bool	find_player(t_map *map)
