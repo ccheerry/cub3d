@@ -6,22 +6,11 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:13 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/08 20:07:18 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/09/10 21:46:56 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-bool	is_valid_map(char *filename)
-{
-	t_map	temp_map;
-	bool	result;
-
-	ft_memset(&temp_map, 0, sizeof(t_map));
-	result = parse_map_file(filename, &temp_map);
-	free_map(&temp_map);
-	return (result);
-}
 
 void	free_map(t_map *map)
 {
@@ -36,13 +25,13 @@ void	free_map(t_map *map)
 		ft_free((void **)&map->grid);
 	}
 	if (map->textures.north)
-		ft_free((void **)&map->textures.north);
+		free(map->textures.north);
 	if (map->textures.south)
-		ft_free((void **)&map->textures.south);
+		free(map->textures.south);
 	if (map->textures.east)
-		ft_free((void **)&map->textures.east);
+		free(map->textures.east);
 	if (map->textures.west)
-		ft_free((void **)&map->textures.west);
+		free(map->textures.west);
 }
 
 bool	is_valid_line(char *line)
@@ -101,7 +90,7 @@ static char	*trim_newline(char *str)
 	return (ft_strdup(str));
 }
 
-bool	parse_elements(char *line, t_map *map)
+bool	parse_elements(char *line, t_map *map, t_game *game)
 {
 	char	**parts;
 	bool	result;
@@ -115,13 +104,17 @@ bool	parse_elements(char *line, t_map *map)
 	}
 	result = false;
 	if (ft_strcmp(parts[0], "NO") == 0 && !map->textures.north)
-		map->textures.north = trim_newline(parts[1]);
+		map->textures.north = mlx_xpm_file_to_image(game->mlx,
+			trim_newline(parts[1]), &game->tex_width, &game->tex_height);
 	else if (ft_strcmp(parts[0], "SO") == 0 && !map->textures.south)
-		map->textures.south = trim_newline(parts[1]);
+		map->textures.south = mlx_xpm_file_to_image(game->mlx,
+			trim_newline(parts[1]), &game->tex_width, &game->tex_height);
 	else if (ft_strcmp(parts[0], "EA") == 0 && !map->textures.east)
-		map->textures.east = trim_newline(parts[1]);
+		map->textures.east = mlx_xpm_file_to_image(game->mlx,
+			trim_newline(parts[1]), &game->tex_width, &game->tex_height);
 	else if (ft_strcmp(parts[0], "WE") == 0 && !map->textures.west)
-		map->textures.west = trim_newline(parts[1]);
+		map->textures.west = mlx_xpm_file_to_image(game->mlx,
+			trim_newline(parts[1]), &game->tex_width, &game->tex_height);
 	else if (ft_strcmp(parts[0], "F") == 0)
 		result = parse_color(parts[1], &map->colors.floor_r,
 				&map->colors.floor_g, &map->colors.floor_b);
@@ -135,6 +128,6 @@ bool	parse_elements(char *line, t_map *map)
 
 bool	validate_textures(t_map *map)
 {
-	(void)map;
-	return (true);
+	return (map->textures.north && map->textures.south
+		&& map->textures.east && map->textures.west);
 }

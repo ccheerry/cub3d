@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:11:36 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/08 20:15:38 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:52:55 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,51 @@
 
 int	init_mlx(t_game *game)
 {
-	(void)game;
-	return (1);
-}
+	void	*mlx;
 
-int	load_textures(t_game *game)
-{
-	(void)game;
+	mlx = mlx_init();
+	if (!mlx)
+		return (0);
+	game->mlx = mlx;
 	return (1);
 }
 
 void	init_game(char *filename)
 {
-	t_game	game;
+	t_game	*game;
 
-	ft_memset(&game, 0, sizeof(t_game));
-	if (!parse_map_file(filename, &game.map))
+	game = ft_calloc(1, sizeof(t_game));
+	if (!game)
 	{
-		ft_putstr_fd("Error:\nInvalid map\n", 2);
-		free_map(&game.map);
+		ft_putstr_fd("Error:\nMalloc failed\n", 2);
 		return ;
 	}
-	if (!init_mlx(&game))
+	if (!init_mlx(game))
 	{
 		ft_putstr_fd("Error:\nMLX init failed\n", 2);
-		free_map(&game.map);
+		ft_free((void **)&game);
 		return ;
 	}
-	if (!load_textures(&game))
+	if (!parse_map_file(filename, &game->map, game))
 	{
-		ft_putstr_fd("Error:\nTexture loading failed\n", 2);
-		free_map(&game.map);
+		ft_putstr_fd("Error:\nInvalid map\n", 2);
+		free_map(&game->map);
+		ft_free((void **)&game);
 		return ;
 	}
-	free_map(&game.map);
+	ft_printf("Map loaded!\n");
+	ft_printf("Map size: %dx%d\n", game->map.width, game->map.height);
+	ft_printf("Floor color: RGB(%d, %d, %d)\n",
+		game->map.colors.floor_r, game->map.colors.floor_g,
+		game->map.colors.floor_b);
+	ft_printf("Ceiling color: RGB(%d, %d, %d)\n",
+		game->map.colors.ceiling_r, game->map.colors.ceiling_g,
+		game->map.colors.ceiling_b);
+	ft_printf("Map grid:\n");
+	for (int i = 0; i < game->map.height; i++)
+		ft_printf("%s", game->map.grid[i]);
+	free_map(&game->map);
+	ft_free((void **)&game);
 }
 
 int	main(int ac, char **av)

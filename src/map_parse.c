@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:41:32 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/08 20:13:37 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:43:37 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,13 @@ static bool	parse_map_grid(int fd, t_map *map, char *first_line)
 			if (!is_valid_line(line.data))
 			{
 				ft_tstr_free(&line);
-				i = 0;
-				while (i < lines.size)
+				i = -1;
+				while (++i < lines.size)
 				{
 					ptr = *((char **)ft_vec_get(&lines, i));
 					ft_free((void **)&ptr);
-					i++;
 				}
-				ft_vec_free(&lines);
-				return (false);
+				return (ft_vec_free(&lines), false);
 			}
 			line_copy = ft_strdup(line.data);
 			ft_vec_push(&lines, &line_copy, 1);
@@ -79,10 +77,7 @@ static bool	parse_map_grid(int fd, t_map *map, char *first_line)
 	}
 	map->height = lines.size;
 	if (map->height == 0)
-	{
-		ft_vec_free(&lines);
-		return (false);
-	}
+		return (ft_vec_free(&lines), false);
 	map->grid = ft_calloc(map->height + 1, sizeof(char *));
 	i = 0;
 	while ((int)i < map->height)
@@ -136,7 +131,7 @@ static bool	all_elements_present(t_map *map)
 		&& map->textures.east && map->textures.west);
 }
 
-bool	parse_map_file(char *filename, t_map *map)
+bool	parse_map_file(char *filename, t_map *map, t_game *game)
 {
 	int			fd;
 	t_string	line;
@@ -153,7 +148,7 @@ bool	parse_map_file(char *filename, t_map *map)
 	{
 		if (line.data[0] != '\0' && line.data[0] != '\n' && !is_map_line(line.data))
 		{
-			if (!parse_elements(line.data, map))
+			if (!parse_elements(line.data, map, game))
 				return (ft_tstr_free(&line), close(fd), false);
 		}
 		else if (is_map_line(line.data))
