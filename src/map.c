@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:13 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/10 21:46:56 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:28:24 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,10 @@ void	free_map(t_map *map)
 				ft_free((void **)&map->grid[i]);
 		ft_free((void **)&map->grid);
 	}
-	if (map->textures.north)
-		free(map->textures.north);
-	if (map->textures.south)
-		free(map->textures.south);
-	if (map->textures.east)
-		free(map->textures.east);
-	if (map->textures.west)
-		free(map->textures.west);
+	map->textures.north = NULL;
+	map->textures.south = NULL;
+	map->textures.east = NULL;
+	map->textures.west = NULL;
 }
 
 bool	is_valid_line(char *line)
@@ -76,18 +72,17 @@ static bool	parse_color(char *str, int *r, int *g, int *b)
 
 static char	*trim_newline(char *str)
 {
-	char	*trimmed;
-	int		len;
+	size_t	len;
 
 	if (!str)
-		return (NULL);
+		return (str);
 	len = ft_strlen(str);
-	if (len > 0 && str[len - 1] == '\n')
+	while (len > 0 && (str[len - 1] == '\n' || str[len - 1] == '\r'))
 	{
-		trimmed = ft_substr(str, 0, len - 1);
-		return (trimmed);
+		str[len - 1] = '\0';
+		len--;
 	}
-	return (ft_strdup(str));
+	return (str);
 }
 
 bool	parse_elements(char *line, t_map *map, t_game *game)

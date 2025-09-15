@@ -11,7 +11,7 @@ REMOVE 			= rm -rf
 SRCDIR			= src
 OBJDIR			= obj
 
-SRCS			= $(SRCDIR)/game.c $(SRCDIR)/map.c $(SRCDIR)/map_parse.c
+SRCS			= $(SRCDIR)/game.c $(SRCDIR)/map.c $(SRCDIR)/map_parse.c $(SRCDIR)/mem.c
 OBJS			= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 all:			${LIBFT} ${MLX} ${NAME}

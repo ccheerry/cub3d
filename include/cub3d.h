@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:02 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/10 18:44:14 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:17:10 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,6 @@ bool	validate_textures(t_map *map);
 void	init_game(char *filename);
 void	free_map(t_map *map);
 int		init_mlx(t_game *game);
+void	free_mlx(t_game *game);
 
 #endif

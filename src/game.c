@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:11:36 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/12 17:52:55 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:14:44 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	init_game(char *filename)
 	if (!parse_map_file(filename, &game->map, game))
 	{
 		ft_putstr_fd("Error:\nInvalid map\n", 2);
+		free_mlx(game);
 		free_map(&game->map);
 		ft_free((void **)&game);
 		return ;
@@ -57,6 +58,7 @@ void	init_game(char *filename)
 	ft_printf("Map grid:\n");
 	for (int i = 0; i < game->map.height; i++)
 		ft_printf("%s", game->map.grid[i]);
+	free_mlx(game);
 	free_map(&game->map);
 	ft_free((void **)&game);
 }
