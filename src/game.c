@@ -55,9 +55,17 @@ void	init_game(char *filename)
 	ft_printf("Ceiling color: RGB(%d, %d, %d)\n",
 		game->map.colors.ceiling_r, game->map.colors.ceiling_g,
 		game->map.colors.ceiling_b);
+	ft_printf("Texture paths:\n");
+	ft_printf("North: %s\n", game->map.textures.north_path.data);
+	ft_printf("South: %s\n", game->map.textures.south_path.data);
+	ft_printf("East: %s\n", game->map.textures.east_path.data);
+	ft_printf("West: %s\n", game->map.textures.west_path.data);
 	ft_printf("Map grid:\n");
 	for (int i = 0; i < game->map.height; i++)
-		ft_printf("%s", game->map.grid[i]);
+	{
+		t_string *row = (t_string *)ft_vec_get(&game->map.grid, i);
+		ft_printf("%s", row->data);
+	}
 	free_mlx(game);
 	free_map(&game->map);
 	ft_free((void **)&game);

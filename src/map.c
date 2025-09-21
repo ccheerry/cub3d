@@ -14,16 +14,25 @@
 
 void	free_map(t_map *map)
 {
-	int	i;
+	size_t		i;
+	t_string	*ptr;
 
-	if (map->grid)
+	if (map->grid.data)
 	{
-		i = -1;
-		while (++i < map->height)
-			if (map->grid[i])
-				ft_free((void **)&map->grid[i]);
-		ft_free((void **)&map->grid);
+		i = 0;
+		while (i < map->grid.size)
+		{
+			ptr = (t_string *)ft_vec_get(&map->grid, i);
+			if (ptr)
+				ft_tstr_free(ptr);
+			i++;
+		}
+		ft_vec_free(&map->grid);
 	}
+	ft_tstr_free(&map->textures.north_path);
+	ft_tstr_free(&map->textures.south_path);
+	ft_tstr_free(&map->textures.east_path);
+	ft_tstr_free(&map->textures.west_path);
 	map->textures.north = NULL;
 	map->textures.south = NULL;
 	map->textures.east = NULL;
@@ -89,6 +98,7 @@ bool	parse_elements(char *line, t_map *map, t_game *game)
 {
 	char	**parts;
 	bool	result;
+	char	*trimmed_path;
 
 	parts = ft_split(line, ' ');
 	if (!parts || !parts[0] || !parts[1])
@@ -98,26 +108,41 @@ bool	parse_elements(char *line, t_map *map, t_game *game)
 		return (false);
 	}
 	result = false;
-	if (ft_strcmp(parts[0], "NO") == 0 && !map->textures.north)
+	trimmed_path = trim_newline(parts[1]);
+	if (ft_strcmp(parts[0], "NO") == 0 && !map->textures.north_path.data)
+	{
+		map->textures.north_path = ft_tstr_from_cstr(trimmed_path);
 		map->textures.north = mlx_xpm_file_to_image(game->mlx,
-			trim_newline(parts[1]), &game->tex_width, &game->tex_height);
-	else if (ft_strcmp(parts[0], "SO") == 0 && !map->textures.south)
+			trimmed_path, &game->tex_width, &game->tex_height);
+		result = (map->textures.north != NULL);
+	}
+	else if (ft_strcmp(parts[0], "SO") == 0 && !map->textures.south_path.data)
+	{
+		map->textures.south_path = ft_tstr_from_cstr(trimmed_path);
 		map->textures.south = mlx_xpm_file_to_image(game->mlx,
-			trim_newline(parts[1]), &game->tex_width, &game->tex_height);
-	else if (ft_strcmp(parts[0], "EA") == 0 && !map->textures.east)
+			trimmed_path, &game->tex_width, &game->tex_height);
+		result = (map->textures.south != NULL);
+	}
+	else if (ft_strcmp(parts[0], "EA") == 0 && !map->textures.east_path.data)
+	{
+		map->textures.east_path = ft_tstr_from_cstr(trimmed_path);
 		map->textures.east = mlx_xpm_file_to_image(game->mlx,
-			trim_newline(parts[1]), &game->tex_width, &game->tex_height);
-	else if (ft_strcmp(parts[0], "WE") == 0 && !map->textures.west)
+			trimmed_path, &game->tex_width, &game->tex_height);
+		result = (map->textures.east != NULL);
+	}
+	else if (ft_strcmp(parts[0], "WE") == 0 && !map->textures.west_path.data)
+	{
+		map->textures.west_path = ft_tstr_from_cstr(trimmed_path);
 		map->textures.west = mlx_xpm_file_to_image(game->mlx,
-			trim_newline(parts[1]), &game->tex_width, &game->tex_height);
+			trimmed_path, &game->tex_width, &game->tex_height);
+		result = (map->textures.west != NULL);
+	}
 	else if (ft_strcmp(parts[0], "F") == 0)
 		result = parse_color(parts[1], &map->colors.floor_r,
 				&map->colors.floor_g, &map->colors.floor_b);
 	else if (ft_strcmp(parts[0], "C") == 0)
 		result = parse_color(parts[1], &map->colors.ceiling_r,
 				&map->colors.ceiling_g, &map->colors.ceiling_b);
-	if (parts[0][0] != 'F' && parts[0][0] != 'C')
-		result = true;
 	return (ft_free_array((void ***)&parts), result);
 }
 

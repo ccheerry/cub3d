@@ -32,10 +32,14 @@
 
 typedef struct s_textures
 {
-	char	*north;
-	char	*south;
-	char	*east;
-	char	*west;
+	t_string	north_path;
+	t_string	south_path;
+	t_string	east_path;
+	t_string	west_path;
+	void		*north;
+	void		*south;
+	void		*east;
+	void		*west;
 }	t_textures;
 
 typedef struct s_colors
@@ -58,7 +62,7 @@ typedef struct s_player
 
 typedef struct s_map
 {
-	char		**grid;
+	t_vec		grid;
 	int			width;
 	int			height;
 	t_player	player;

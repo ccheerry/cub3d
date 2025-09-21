@@ -37,26 +37,47 @@ static bool	is_map_line(char *line)
 	return (has_map_char);
 }
 
+static char	get_char_at(t_string *row, int x)
+{
+	if (!row || x < 0 || x >= (int)row->len)
+		return ('\0');
+	return (row->data[x]);
+}
+
 static bool	is_map_surrounded(t_map *map)
 {
-	int	y;
-	int	x;
+	int			y;
+	int			x;
+	t_string	*row;
+	t_string	*prev_row;
+	t_string	*next_row;
+	char		up;
+	char		down;
+	char		left;
+	char		right;
 
 	y = 0;
 	while (y < map->height)
 	{
+		row = (t_string *)ft_vec_get(&map->grid, y);
 		x = 0;
-		while (map->grid[y][x])
+		while (x < (int)row->len)
 		{
-			if (map->grid[y][x] == '0' || map->grid[y][x] == 'N'
-				|| map->grid[y][x] == 'S' || map->grid[y][x] == 'E'
-				|| map->grid[y][x] == 'W')
+			if (row->data[x] == '0' || row->data[x] == 'N'
+				|| row->data[x] == 'S' || row->data[x] == 'E'
+				|| row->data[x] == 'W')
 			{
-				if (y == 0 || y == map->height - 1
-					|| x == 0 || x == (int)ft_strlen(map->grid[y]) - 1)
+				if (y == 0 || y == map->height - 1)
 					return (false);
-				if (map->grid[y - 1][x] == ' ' || map->grid[y + 1][x] == ' '
-					|| map->grid[y][x - 1] == ' ' || map->grid[y][x + 1] == ' ')
+				prev_row = (t_string *)ft_vec_get(&map->grid, y - 1);
+				next_row = (t_string *)ft_vec_get(&map->grid, y + 1);
+				up = get_char_at(prev_row, x);
+				down = get_char_at(next_row, x);
+				left = get_char_at(row, x - 1);
+				right = get_char_at(row, x + 1);
+				if (up == ' ' || down == ' ' || left == ' ' || right == ' '
+					|| up == '\0' || down == '\0' || left == '\0' || right == '\0'
+					|| up == '\n' || down == '\n' || left == '\n' || right == '\n')
 					return (false);
 			}
 			x++;
@@ -69,14 +90,13 @@ static bool	is_map_surrounded(t_map *map)
 static bool	parse_map_grid(int fd, t_map *map, char *first_line)
 {
 	t_string	line;
-	t_vec		lines;
 	size_t		i;
-	char		*line_copy;
-	char		*ptr;
+	t_string	line_copy;
+	t_string	*ptr;
 
-	lines = ft_vec(10, sizeof(char *));
-	line_copy = ft_strdup(first_line);
-	ft_vec_push(&lines, &line_copy, 1);
+	map->grid = ft_vec(10, sizeof(t_string));
+	line_copy = ft_tstr_from_cstr(first_line);
+	ft_vec_push(&map->grid, &line_copy, 1);
 	line = get_next_line(fd);
 	while (line.len > 0)
 	{
@@ -86,15 +106,15 @@ static bool	parse_map_grid(int fd, t_map *map, char *first_line)
 			{
 				ft_tstr_free(&line);
 				i = -1;
-				while (++i < lines.size)
+				while (++i < map->grid.size)
 				{
-					ptr = *((char **)ft_vec_get(&lines, i));
-					ft_free((void **)&ptr);
+					ptr = (t_string *)ft_vec_get(&map->grid, i);
+					ft_tstr_free(ptr);
 				}
-				return (ft_vec_free(&lines), false);
+				return (ft_vec_free(&map->grid), false);
 			}
-			line_copy = ft_strdup(line.data);
-			ft_vec_push(&lines, &line_copy, 1);
+			line_copy = ft_tstr_from_cstr(line.data);
+			ft_vec_push(&map->grid, &line_copy, 1);
 			ft_tstr_free(&line);
 		}
 		else
@@ -104,45 +124,40 @@ static bool	parse_map_grid(int fd, t_map *map, char *first_line)
 		}
 		line = get_next_line(fd);
 	}
-	map->height = lines.size;
-	if (map->height < 3) // ask but i assume to be surrounded it should have at least 3 rows
-		return (ft_vec_free(&lines), false);
-	map->grid = ft_calloc(map->height + 1, sizeof(char *));
-	i = 0;
-	while ((int)i < map->height)
-	{
-		map->grid[i] = *((char **)ft_vec_get(&lines, i));
-		i++;
-	}
-	return (ft_vec_free(&lines), is_map_surrounded(map));
+	map->height = map->grid.size;
+	if (map->height < 3)
+		return (ft_vec_free(&map->grid), false);
+	return (is_map_surrounded(map));
 }
 
 static bool	find_player(t_map *map)
 {
-	int	y;
-	int	x;
+	int			y;
+	int			x;
+	t_string	*row;
 
 	y = 0;
 	while (y < map->height)
 	{
+		row = (t_string *)ft_vec_get(&map->grid, y);
 		x = 0;
-		while (map->grid[y][x])
+		while (x < (int)row->len && row->data[x])
 		{
-			if (map->grid[y][x] == 'N' || map->grid[y][x] == 'S'
-				|| map->grid[y][x] == 'E' || map->grid[y][x] == 'W')
+			if (row->data[x] == 'N' || row->data[x] == 'S'
+				|| row->data[x] == 'E' || row->data[x] == 'W')
 			{
 				if (map->player.orientation != 0)
 					return (false);
 				map->player.x = (float)x;
 				map->player.y = (float)y;
-				map->player.orientation = map->grid[y][x];
-				if (map->grid[y][x] == 'N')
+				map->player.orientation = row->data[x];
+				if (row->data[x] == 'N')
 					map->player.angle = 0;
-				else if (map->grid[y][x] == 'S')
+				else if (row->data[x] == 'S')
 					map->player.angle = 180;
-				else if (map->grid[y][x] == 'E')
+				else if (row->data[x] == 'E')
 					map->player.angle = 90;
-				else if (map->grid[y][x] == 'W')
+				else if (row->data[x] == 'W')
 					map->player.angle = 270;
 			}
 			x++;
