@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:14:01 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/02 19:54:21 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:52:12 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,51 +222,5 @@ float			ft_roundff(float x);
  * @return Absolute value of the input number.
  */
 double			ft_fabs(double x);
-
-/**
- * @brief Fast sine function using lookup table (degrees).
- *
- * This function calculates sine using a precomputed lookup table
- * for integer degrees, with linear interpolation for precision.
- * Optimized for raycasting operations.
- *
- * @param degrees Angle in degrees.
- * @return Sine value.
- */
-float			ft_sin_deg(float degrees);
-
-/**
- * @brief Fast cosine function using lookup table (degrees).
- *
- * This function calculates cosine using a precomputed lookup table
- * for integer degrees, with linear interpolation for precision.
- * Optimized for raycasting operations.
- *
- * @param degrees Angle in degrees.
- * @return Cosine value.
- */
-float			ft_cos_deg(float degrees);
-
-/**
- * @brief Converts degrees to radians using bit manipulation.
- *
- * This function performs fast degree to radian conversion
- * using optimized floating-point operations.
- *
- * @param degrees Angle in degrees.
- * @return Angle in radians.
- */
-float			ft_deg_to_rad(float degrees);
-
-/**
- * @brief Normalizes angle to 0-360 degree range using bit tricks.
- *
- * This function normalizes an angle to the 0-360 degree range
- * using optimized modulo operations.
- *
- * @param degrees Input angle in degrees.
- * @return Normalized angle in 0-360 range.
- */
-float			ft_normalize_deg(float degrees);
 
 #endif

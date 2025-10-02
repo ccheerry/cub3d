@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:11:36 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/15 17:14:44 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:37:59 by albcamac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/*
+** init_mlx:
+**   Inicializa la MiniLibX y guarda el puntero en game->mlx.
+**   Devuelve 1 si la inicialización fue correcta, 0 si falló.
+*/
 int	init_mlx(t_game *game)
 {
 	void	*mlx;
@@ -23,54 +28,77 @@ int	init_mlx(t_game *game)
 	return (1);
 }
 
+/* game_init_enemies.c (si prefieres separarlo) */
+
+int	game_init_enemies(t_game *g)
+{
+	if (!find_enemies(g))
+	{
+		ft_putstr_fd("Error\nfind_enemies failed\n", 2);
+		return (0);
+	}
+	if (!load_enemy_textures(g))
+	{
+		ft_putstr_fd("Error\nload_enemy_textures failed\n", 2);
+		return (0);
+	}
+	return (1);
+}
+
+/*
+** init_game:
+**   Reserva e inicializa la estructura principal del juego.
+**   - Inicializa MLX.
+**   - Parsea el mapa (.cub) y carga texturas/colores.
+**   - Ajusta la posición inicial del jugador al centro de la celda.
+**   - Crea la ventana y entra en el bucle de eventos de MLX.
+**   En caso de error, muestra mensaje y libera la memoria asociada.
+*/
 void	init_game(char *filename)
 {
 	t_game	*game;
 
 	game = ft_calloc(1, sizeof(t_game));
 	if (!game)
-	{
-		ft_putstr_fd("Error:\nMalloc failed\n", 2);
-		return ;
-	}
+		return (ft_putstr_fd("Error:\nMalloc failed\n", 2));
 	if (!init_mlx(game))
-	{
-		ft_putstr_fd("Error:\nMLX init failed\n", 2);
-		ft_free((void **)&game);
-		return ;
-	}
+		return (ft_putstr_fd("Error:\nMLX init failed\n", 2),
+			ft_free((void **)&game));
 	if (!parse_map_file(filename, &game->map, game))
 	{
 		ft_putstr_fd("Error:\nInvalid map\n", 2);
 		free_mlx(game);
 		free_map(&game->map);
-		ft_free((void **)&game);
-		return ;
+		return (ft_free((void **)&game));
 	}
-	ft_printf("Map loaded!\n");
-	ft_printf("Map size: %dx%d\n", game->map.width, game->map.height);
-	ft_printf("Floor color: RGB(%d, %d, %d)\n",
-		game->map.colors.floor_r, game->map.colors.floor_g,
-		game->map.colors.floor_b);
-	ft_printf("Ceiling color: RGB(%d, %d, %d)\n",
-		game->map.colors.ceiling_r, game->map.colors.ceiling_g,
-		game->map.colors.ceiling_b);
-	ft_printf("Texture paths:\n");
-	ft_printf("North: %s\n", game->map.textures.north_path.data);
-	ft_printf("South: %s\n", game->map.textures.south_path.data);
-	ft_printf("East: %s\n", game->map.textures.east_path.data);
-	ft_printf("West: %s\n", game->map.textures.west_path.data);
-	ft_printf("Map grid:\n");
-	for (int i = 0; i < game->map.height; i++)
+	game->map.player.x += 0.5f;
+	game->map.player.y += 0.5f;
+	if (!game_init_enemies(game))
+		return (ft_putstr_fd("Error:\nInvalid map\n", 2));
+	if (!find_doors(game))
+		return (ft_putstr_fd("Error:\nInvalid map\n", 2));
+	if (!load_door_texture(game))
+		return (ft_putstr_fd("Error:\nInvalid map\n", 2));
+	if (!start_window(game))
 	{
-		t_string *row = (t_string *)ft_vec_get(&game->map.grid, i);
-		ft_printf("%s", row->data);
+		ft_putstr_fd("Error:\nWindow init failed\n", 2);
+		free_mlx(game);
+		free_map(&game->map);
+		return (ft_free((void **)&game));
 	}
-	free_mlx(game);
-	free_map(&game->map);
-	ft_free((void **)&game);
+	mlx_loop(game->mlx);
+	// free_mlx(game); pend posible fix para leaks de ctrl c
+	// free_map(&game->map);
+	// ft_free((void **)&game);
 }
 
+/*
+** main:
+**   Punto de entrada del programa. Verifica los argumentos y
+**   lanza la inicialización del juego con el archivo .cub.
+**   Devuelve 0 si la ejecución comienza correctamente, 1 si el
+**   uso es incorrecto.
+*/
 int	main(int ac, char **av)
 {
 	if (ac != 2)

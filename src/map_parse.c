@@ -3,209 +3,96 @@
 /*                                                        :::      ::::::::   */
 /*   map_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:41:32 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/15 17:02:28 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/09/30 17:41:58 by albcamac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static bool	is_map_line(char *line)
+/*
+** has_cub_ext:
+**   Comprueba que el nombre de fichero termine en ".cub".
+**   Devuelve 1 si la extensión es correcta, 0 en caso contrario.
+*/
+static int	has_cub_ext(char *filename)
 {
-	int		i;
-	bool	has_map_char;
+	size_t	len;
 
-	if (!line || line[0] == '\0')
-		return (false);
-	i = 0;
-	has_map_char = false;
-	while (line[i] && line[i] != '\n')
-	{
-		if (line[i] == '0' || line[i] == '1'
-			|| line[i] == 'N' || line[i] == 'S'
-			|| line[i] == 'E' || line[i] == 'W' || line[i] == ' ')
-		{
-			if (line[i] != ' ')
-				has_map_char = true;
-		}
-		else
-			return (false);
-		i++;
-	}
-	return (has_map_char);
+	len = ft_strlen(filename);
+	if (len < 4)
+		return (0);
+	if (ft_strcmp(filename + (len - 4), ".cub") != 0)
+		return (0);
+	return (1);
 }
 
-static char	get_char_at(t_string *row, int x)
-{
-	if (!row || x < 0 || x >= (int)row->len)
-		return ('\0');
-	return (row->data[x]);
-}
-
-static bool	is_map_surrounded(t_map *map)
-{
-	int			y;
-	int			x;
-	t_string	*row;
-	t_string	*prev_row;
-	t_string	*next_row;
-	char		up;
-	char		down;
-	char		left;
-	char		right;
-
-	y = 0;
-	while (y < map->height)
-	{
-		row = (t_string *)ft_vec_get(&map->grid, y);
-		x = 0;
-		while (x < (int)row->len)
-		{
-			if (row->data[x] == '0' || row->data[x] == 'N'
-				|| row->data[x] == 'S' || row->data[x] == 'E'
-				|| row->data[x] == 'W')
-			{
-				if (y == 0 || y == map->height - 1)
-					return (false);
-				prev_row = (t_string *)ft_vec_get(&map->grid, y - 1);
-				next_row = (t_string *)ft_vec_get(&map->grid, y + 1);
-				up = get_char_at(prev_row, x);
-				down = get_char_at(next_row, x);
-				left = get_char_at(row, x - 1);
-				right = get_char_at(row, x + 1);
-				if (up == ' ' || down == ' ' || left == ' ' || right == ' '
-					|| up == '\0' || down == '\0' || left == '\0' || right == '\0'
-					|| up == '\n' || down == '\n' || left == '\n' || right == '\n')
-					return (false);
-			}
-			x++;
-		}
-		y++;
-	}
-	return (true);
-}
-
-static bool	parse_map_grid(int fd, t_map *map, char *first_line)
+/*
+** process_until_map:
+**   Lee líneas del descriptor 'fd' hasta encontrar el comienzo del mapa.
+**   - Si la línea es de elementos (NO/SO/EA/WE/F/C), llama a parse_elements().
+**   - Si la línea parece de mapa, valida y delega en parse_map_grid().
+**   Devuelve 1 si el mapa comienza y se parsea bien, 0 si hay error.
+*/
+static int	process_until_map(int fd, t_map *map, t_game *game)
 {
 	t_string	line;
-	size_t		i;
-	t_string	line_copy;
-	t_string	*ptr;
 
-	map->grid = ft_vec(10, sizeof(t_string));
-	line_copy = ft_tstr_from_cstr(first_line);
-	ft_vec_push(&map->grid, &line_copy, 1);
 	line = get_next_line(fd);
 	while (line.len > 0)
 	{
-		if (is_map_line(line.data))
+		if (line.data[0] != '\0' && line.data[0] != '\n'
+			&& !is_map_line(line.data))
 		{
-			if (!is_valid_line(line.data))
+			if (!parse_elements(line.data, map, game))
 			{
 				ft_tstr_free(&line);
-				i = -1;
-				while (++i < map->grid.size)
-				{
-					ptr = (t_string *)ft_vec_get(&map->grid, i);
-					ft_tstr_free(ptr);
-				}
-				return (ft_vec_free(&map->grid), false);
+				return (0);
 			}
-			line_copy = ft_tstr_from_cstr(line.data);
-			ft_vec_push(&map->grid, &line_copy, 1);
-			ft_tstr_free(&line);
 		}
-		else
+		else if (is_map_line(line.data))
 		{
-			ft_tstr_free(&line);
-			break ;
+			if (!is_valid_line(line.data))
+				return (ft_tstr_free(&line), 0);
+			if (!parse_map_grid(fd, map, line.data))
+				return (ft_tstr_free(&line), 0);
+			return (ft_tstr_free(&line), 1);
 		}
-		line = get_next_line(fd);
+		(ft_tstr_free(&line), line = get_next_line(fd));
 	}
-	map->height = map->grid.size;
-	if (map->height < 3)
-		return (ft_vec_free(&map->grid), false);
-	return (is_map_surrounded(map));
+	return (ft_tstr_free(&line), 0);
 }
 
-static bool	find_player(t_map *map)
-{
-	int			y;
-	int			x;
-	t_string	*row;
-
-	y = 0;
-	while (y < map->height)
-	{
-		row = (t_string *)ft_vec_get(&map->grid, y);
-		x = 0;
-		while (x < (int)row->len && row->data[x])
-		{
-			if (row->data[x] == 'N' || row->data[x] == 'S'
-				|| row->data[x] == 'E' || row->data[x] == 'W')
-			{
-				if (map->player.orientation != 0)
-					return (false);
-				map->player.x = (float)x;
-				map->player.y = (float)y;
-				map->player.orientation = row->data[x];
-				if (row->data[x] == 'N')
-					map->player.angle = 0;
-				else if (row->data[x] == 'S')
-					map->player.angle = 180;
-				else if (row->data[x] == 'E')
-					map->player.angle = 90;
-				else if (row->data[x] == 'W')
-					map->player.angle = 270;
-			}
-			x++;
-		}
-		if (x > map->width)
-			map->width = x;
-		y++;
-	}
-	return (map->player.orientation != 0);
-}
-
-static bool	all_elements_present(t_map *map)
-{
-	return (map->textures.north && map->textures.south
-		&& map->textures.east && map->textures.west);
-}
-
+/*
+** parse_map_file:
+**   Punto de entrada del parseo del .cub:
+**   - Verifica extensión.
+**   - Abre el archivo y procesa encabezado + mapa.
+**   - Comprueba que existan todos los elementos y el jugador.
+**   - Valida que las texturas se cargaron correctamente.
+**   Devuelve true si todo es válido, false si hay cualquier error.
+*/
 bool	parse_map_file(char *filename, t_map *map, t_game *game)
 {
-	int			fd;
-	t_string	line;
-	bool		map_started;
+	int	fd;
+	int	ok;
 
-	if (ft_strcmp(filename + ft_strlen(filename) - 4, ".cub") != 0)
+	if (!has_cub_ext(filename))
 		return (false);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (false);
-	map_started = false;
-	line = get_next_line(fd);
-	while (line.len > 0 && !map_started)
-	{
-		if (line.data[0] != '\0' && line.data[0] != '\n' && !is_map_line(line.data))
-		{
-			if (!parse_elements(line.data, map, game))
-				return (ft_tstr_free(&line), close(fd), false);
-		}
-		else if (is_map_line(line.data))
-		{
-			map_started = true;
-			if (!is_valid_line(line.data))
-				return (ft_tstr_free(&line), close(fd), false);
-			if (!parse_map_grid(fd, map, line.data))
-				return (ft_tstr_free(&line), close(fd), false);
-		}
-		ft_tstr_free(&line);
-		line = get_next_line(fd);
-	}
-	return (close(fd), all_elements_present(map) && find_player(map)
-		&& validate_textures(map));
+	ok = process_until_map(fd, map, game);
+	close(fd);
+	if (!ok)
+		return (false);
+	if (!all_elements_present(map))
+		return (false);
+	if (!find_player(map))
+		return (false);
+	if (!validate_textures(map))
+		return (false);
+	return (true);
 }

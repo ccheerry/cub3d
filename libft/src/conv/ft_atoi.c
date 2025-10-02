@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:13:42 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/12 18:06:36 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:50:58 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Modified to return -1 on unexpected chars etc
 
-static bool is_digit(const char *s, int i)
+static bool	is_digit(const char *s, int i)
 {
 	if (!s || i < 0)
 		return (false);

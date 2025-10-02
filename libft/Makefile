@@ -67,7 +67,6 @@ SRCS		:=	src/ctype/ft_isprint.c\
 				src/math/ft_pow.c\
 				src/math/ft_q_sqrt.c\
 				src/math/ft_round.c\
-				src/math/ft_trig.c\
 				src/tstr/ft_tstr_repeat.c\
 				src/tstr/ft_tstr_strrchr.c\
 				src/tstr/ft_tstr_new.c\
@@ -196,7 +195,6 @@ OBJS		:=	build/ctype/ft_isprint.o\
 				build/math/ft_pow.o\
 				build/math/ft_q_sqrt.o\
 				build/math/ft_round.o\
-				build/math/ft_trig.o\
 				build/tstr/ft_tstr_repeat.o\
 				build/tstr/ft_tstr_strrchr.o\
 				build/tstr/ft_tstr_new.o\
