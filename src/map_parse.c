@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:41:32 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/30 17:41:58 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:31:27 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ bool	parse_map_file(char *filename, t_map *map, t_game *game)
 		return (false);
 	ok = process_until_map(fd, map, game);
 	close(fd);
+	get_next_line(-1);
 	if (!ok)
 		return (false);
 	if (!all_elements_present(map))

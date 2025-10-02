@@ -31,10 +31,10 @@ int	ft_fgetc(int fd, bool clean)
 	static t_string	store = {0};
 	static size_t	offset = {0};
 
-	if (fd < 0)
-		return (EOF);
 	if (clean && store.alloc_size)
 		return (ft_tstr_free(&store), offset = 0, EOF);
+	if (fd < 0)
+		return (EOF);
 	if (!store.alloc_size)
 	{
 		store = ft_tstr_new(BUFSIZE);
