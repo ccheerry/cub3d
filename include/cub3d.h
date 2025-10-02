@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:02 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/02 15:52:28 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:25:39 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,23 @@ typedef struct s_vbuf
 	int		y1[256];
 	float	perp[256];
 }	t_vbuf;
+
+typedef struct s_proj
+{
+	int	sx0;
+	int	sx1;
+	int	sy0;
+	int	sy1;
+}	t_proj;
+
+typedef struct s_col
+{
+	int	x0;
+	int	y0;
+	int	y1;
+	int	w;
+	int	h;
+}	t_col;
 
 typedef struct s_colbounds
 {
@@ -356,18 +373,26 @@ void	advance_dda_step(t_ray *r);
 void	finalize_hit(t_game *g, t_ray *r);
 void	cast_one_column(t_game *g, int x);
 
-/* enemigos / sprites */
 int		find_enemies(t_game *g);
 int		load_enemy_textures(t_game *g);
 void	render_enemies(t_game *g);
-
-/* util imagen */
-unsigned int	img_px(const t_img *t, int x, int y);
-
-/* (opcional si no la tienes) */
+int		img_px(const t_img *t, int x, int y);
 void	put_pixel(t_img *img, int x, int y, int color);
 
 void	minimap_render(t_game *g);
+void	mm_pix(t_game *g, int x, int y, int c);
+void	mm_square(t_game *g, int ox, int oy, int c);
+char	mm_cell(t_game *g, int tx, int ty);
+
+void	enemy_anim_tick(t_game *g);
+void	sort_by_dist(int *idx, float *dist, int n);
+void	project_calc(t_proj *p, double a, double fov, float perp);
+void	pe_norm_angle(double *a);
+int		dsc_calc_tx(int x, t_col *col, t_img *tex);
+
+void	fill_len(t_string *row, size_t *len);
+void	set_enemy(t_enemy *e, size_t x, size_t y);
+void	fill_row_enemies(t_string *row, size_t y, t_enemy *list, int *i);
 
 /* puertas */
 int		find_doors(t_game *g);

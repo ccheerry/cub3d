@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doors_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 21:56:48 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/01 21:56:53 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:37:01 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,34 @@ static int	count_doors_grid(t_game *g, int *count)
 	return (1);
 }
 
+static void	process_door_row(t_string *row, size_t y, t_door *list, int *i)
+{
+	size_t	x;
+	size_t	len;
+
+	if (!row)
+		return ;
+	len = row->len;
+	if (len && row->data[len - 1] == '\n')
+		len--;
+	x = 0;
+	while (x < len)
+	{
+		if (row->data[x] == 'D')
+		{
+			list[*i].x = (int)x;
+			list[*i].y = (int)y;
+			list[*i].t = 0.0f;
+			row->data[x] = '1';
+			(*i)++;
+		}
+		x++;
+	}
+}
+
 static int	fill_doors_grid(t_game *g, t_door *list)
 {
 	size_t		y;
-	size_t		x;
-	size_t		len;
 	int			i;
 	t_string	*row;
 
@@ -54,22 +77,7 @@ static int	fill_doors_grid(t_game *g, t_door *list)
 	while (y < g->map.grid.size)
 	{
 		row = (t_string *)ft_vec_get(&g->map.grid, y);
-		len = row ? row->len : 0;
-		if (len && row->data[len - 1] == '\n')
-			len--;
-		x = 0;
-		while (row && x < len)
-		{
-			if (row->data[x] == 'D')
-			{
-				list[i].x = (int)x;
-				list[i].y = (int)y;
-				list[i].t = 0.0f;
-				row->data[x] = '1'; /* cerrada por defecto (bloquea) */
-				i++;
-			}
-			x++;
-		}
+		process_door_row(row, y, list, &i);
 		y++;
 	}
 	return (1);

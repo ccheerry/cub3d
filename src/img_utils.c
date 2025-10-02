@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   img_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:09:19 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/01 20:09:24 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:25:26 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-unsigned int	img_px(const t_img *t, int x, int y)
+int	img_px(const t_img *t, int x, int y)
 {
 	char	*p;
 
@@ -25,5 +25,5 @@ unsigned int	img_px(const t_img *t, int x, int y)
 	if (y >= t->h)
 		y = t->h - 1;
 	p = t->addr + y * t->line_len + x * (t->bpp / 8);
-	return (*(unsigned int *)p);
+	return (*(int *)p);
 }

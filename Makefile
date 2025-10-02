@@ -19,11 +19,11 @@ SRCS 			= $(SRCDIR)/game.c $(SRCDIR)/map_parse.c \
 					$(SRCDIR)/map_surround.c $(SRCDIR)/map_player.c $(SRCDIR)/map_check.c \
 					$(SRCDIR)/map_free.c $(SRCDIR)/map_validate.c $(SRCDIR)/map_elements.c \
 					$(SRCDIR)/map_colors.c $(SRCDIR)/raycast_utils.c \
-					$(SRCDIR)/enemies_parse.c \
+					$(SRCDIR)/enemies_parse.c $(SRCDIR)/enemies_utils.c \
 					$(SRCDIR)/enemy_textures.c \
 					$(SRCDIR)/img_utils.c \
-					$(SRCDIR)/sprites_enemy.c \
-					$(SRCDIR)/minimap.c \
+					$(SRCDIR)/sprites_enemy.c $(SRCDIR)/sprites_utils.c \
+					$(SRCDIR)/minimap.c $(SRCDIR)/minimap_utils.c \
 					$(SRCDIR)/doors_parse.c \
 					$(SRCDIR)/doors_update.c \
 					$(SRCDIR)/doors_texture.c \
