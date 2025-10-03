@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:11:36 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/02 18:53:52 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:39:13 by albcamac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,21 @@ int	game_init_enemies(t_game *g)
 	return (1);
 }
 
+int	game_init_doors(t_game *g)
+{
+	if (!find_doors(g))
+	{
+		ft_putstr_fd("Error\nfind_doors failed\n", 2);
+		return (0);
+	}
+	if (!load_door_texture(g))
+	{
+		ft_putstr_fd("Error\nload_door_textures failed\n", 2);
+		return (0);
+	}
+	return (1);
+}
+
 /*
 ** init_game:
 **   Reserva e inicializa la estructura principal del juego.
@@ -75,6 +90,8 @@ void	init_game(char *filename)
 			free_mlx(game), free_map(&game->map), ft_free((void **)&game));
 	game->map.player.x += 0.5f;
 	game->map.player.y += 0.5f;
+	game_init_enemies(game);
+	game_init_doors(game);
 	if (!start_window(game))
 		return (ft_putstr_fd("Error:\nWindow init failed\n", 2),
 			free_map(&game->map), free_mlx(game), ft_free((void **)&game));
