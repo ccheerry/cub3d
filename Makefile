@@ -11,25 +11,29 @@ REMOVE 			= rm -rf
 SRCDIR			= src
 OBJDIR			= obj
 
-SRCS 			= $(SRCDIR)/game.c $(SRCDIR)/map_parse.c \
-					$(SRCDIR)/mem.c $(SRCDIR)/input.c $(SRCDIR)/raycast.c \
-					$(SRCDIR)/render.c $(SRCDIR)/window.c \
-					$(SRCDIR)/texture.c $(SRCDIR)/render_tex.c $(SRCDIR)/update_player.c \
-					$(SRCDIR)/input_keys.c $(SRCDIR)/map_grid.c \
-					$(SRCDIR)/map_surround.c $(SRCDIR)/map_player.c $(SRCDIR)/map_check.c \
-					$(SRCDIR)/map_free.c $(SRCDIR)/map_validate.c $(SRCDIR)/map_elements.c \
-					$(SRCDIR)/map_colors.c $(SRCDIR)/raycast_utils.c \
-					$(SRCDIR)/enemies_parse.c $(SRCDIR)/enemies_utils.c \
-					$(SRCDIR)/enemy_textures.c \
-					$(SRCDIR)/img_utils.c \
-					$(SRCDIR)/sprites_enemy.c $(SRCDIR)/sprites_utils.c \
-					$(SRCDIR)/minimap.c $(SRCDIR)/minimap_utils.c \
-					$(SRCDIR)/doors_parse.c \
-					$(SRCDIR)/doors_update.c \
-					$(SRCDIR)/doors_texture.c \
-					$(SRCDIR)/mouse_cam.c \
+SRCS_CORE		= $(SRCDIR)/core/game.c $(SRCDIR)/core/mem.c $(SRCDIR)/core/window.c
 
+SRCS_MAP		= $(SRCDIR)/map/map_parse.c $(SRCDIR)/map/map_grid.c \
+				$(SRCDIR)/map/map_surround.c $(SRCDIR)/map/map_player.c \
+				$(SRCDIR)/map/map_check.c $(SRCDIR)/map/map_free.c \
+				$(SRCDIR)/map/map_validate.c $(SRCDIR)/map/map_elements.c \
+				$(SRCDIR)/map/map_colors.c
 
+SRCS_RENDER		= $(SRCDIR)/render/raycast.c $(SRCDIR)/render/raycast_utils.c \
+				$(SRCDIR)/render/render.c $(SRCDIR)/render/render_tex.c \
+				$(SRCDIR)/render/texture.c $(SRCDIR)/render/img_utils.c
+
+SRCS_INPUT		= $(SRCDIR)/input/input.c $(SRCDIR)/input/input_keys.c \
+				$(SRCDIR)/input/update_player.c
+
+SRCS_BONUS		= $(SRCDIR)/bonus/enemies_parse.c $(SRCDIR)/bonus/enemies_utils.c \
+				$(SRCDIR)/bonus/enemy_textures.c $(SRCDIR)/bonus/sprites_enemy.c \
+				$(SRCDIR)/bonus/sprites_utils.c $(SRCDIR)/bonus/minimap.c \
+				$(SRCDIR)/bonus/minimap_utils.c $(SRCDIR)/bonus/doors_parse.c \
+				$(SRCDIR)/bonus/doors_update.c $(SRCDIR)/bonus/doors_texture.c \
+				$(SRCDIR)/bonus/mouse_cam.c
+
+SRCS			= $(SRCS_CORE) $(SRCS_MAP) $(SRCS_RENDER) $(SRCS_INPUT) $(SRCS_BONUS)
 
 OBJS			= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
@@ -39,6 +43,7 @@ ${NAME}: $(OBJS)
 				${CC} $(OBJS) ${LIBFT} ${CC_FLAGS} ${MINILIBX_FLAGS} -o ${NAME}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+				@mkdir -p $(dir $@)
 				${CC} ${CC_FLAGS} -c $< -o $@
 
 $(OBJDIR):
