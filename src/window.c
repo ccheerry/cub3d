@@ -6,7 +6,7 @@
 /*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 23:17:50 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/01 22:26:07 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/06 21:10:23 by albcamac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	start_window(t_game *g)
 		return (0);
 	if (!create_frame(g, WINDOW_WIDTH, WINDOW_HEIGHT))
 		return (0);
+	mlx_do_key_autorepeatoff(g->mlx);
 	mouse_init(g);
 	g->move_speed = 0.07f;
 	g->rot_speed = 2.5f * M_PI / 180.0f;
@@ -64,6 +65,7 @@ int	start_window(t_game *g)
 */
 int	on_close(t_game *g)
 {
+	mlx_do_key_autorepeaton(g->mlx);
 	free_mlx(g);
 	free_map(&g->map);
 	ft_free((void **)&g);

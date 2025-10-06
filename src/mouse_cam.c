@@ -6,7 +6,7 @@
 /*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 22:23:16 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/02 15:36:31 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/06 21:16:31 by albcamac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	mouse_init(t_game *g)
 	cy = WINDOW_HEIGHT / 2;
 	g->mouse.last_x = cx;
 	g->mouse.last_y = cy;
-	mlx_mouse_move(g->mlx, g->win, cx, cy);
+	mlx_mouse_hide(g->mlx, g->win);
 }
 
 int	mouse_move_hook(int x, int y, t_game *g)
