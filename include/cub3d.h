@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:02 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/06 21:33:06 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:32:19 by albcamac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ double	sqrt(double x);
 
 /* === Mouse look === */
 # ifndef MOUSE_SENS
-#  define MOUSE_SENS 0.11f/* grados por píxel */
+#  define MOUSE_SENS 0.05f/* grados por píxel */
 # endif
 # ifndef MOUSE_MAX_STEP
 #  define MOUSE_MAX_STEP 20/* píxeles máx por evento */

@@ -6,7 +6,7 @@
 /*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 23:17:50 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/06 21:10:23 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:40:55 by albcamac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	start_window(t_game *g)
 */
 int	on_close(t_game *g)
 {
+	mlx_mouse_show(g->mlx, g->win);
 	mlx_do_key_autorepeaton(g->mlx);
 	free_mlx(g);
 	free_map(&g->map);
