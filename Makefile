@@ -4,7 +4,7 @@ MLX				= ./mlx/libmlx_Linux.a
 CC 				= cc
 
 CC_FLAGS 		= -Wall -Werror -Wextra -I./include -I./libft/include -I./mlx #-g3 -fsanitize=address
-MINILIBX_FLAGS	= -L./mlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lz -lm
+MINILIBX_FLAGS	= -L./mlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lz -lm -lXfixes
 
 REMOVE 			= rm -rf
 
