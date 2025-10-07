@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 21:44:07 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/01 21:44:26 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:45:02 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	mm_tiles(t_game *g, int tx0, int ty0)
 		j = -1;
 		while (++j < MM_W_TILES)
 		{
-			ch = mm_cell(g, tx0 + j, ty0 + i);
+			ch = mm_cell(g, tx0 + (MM_W_TILES - 1 - j), ty0 + i);
 			px = MM_PAD + j * MM_TILE;
 			py = MM_PAD + i * MM_TILE;
 			if (ch == '1')
@@ -47,7 +47,7 @@ static void	mm_enemies(t_game *g, int tx0, int ty0)
 	i = -1;
 	while (++i < g->enemy_count)
 	{
-		ex = (int)g->enemies[i].x - tx0;
+		ex = MM_W_TILES - 1 - ((int)g->enemies[i].x - tx0);
 		ey = (int)g->enemies[i].y - ty0;
 		if (ex >= 0 && ey >= 0 && ex < MM_W_TILES && ey < MM_H_TILES)
 			mm_square(g, MM_PAD + ex * MM_TILE, MM_PAD + ey * MM_TILE,
@@ -63,7 +63,7 @@ static void	mm_player(t_game *g, int tx0, int ty0)
 	int		dx;
 	int		dy;
 
-	px = (int)g->map.player.x - tx0;
+	px = MM_W_TILES - 1 - ((int)g->map.player.x - tx0);
 	py = (int)g->map.player.y - ty0;
 	if (px >= 0 && py >= 0 && px < MM_W_TILES && py < MM_H_TILES)
 		mm_square(g, MM_PAD + px * MM_TILE, MM_PAD + py * MM_TILE,
@@ -71,9 +71,9 @@ static void	mm_player(t_game *g, int tx0, int ty0)
 	i = -1;
 	while (++i < (MM_TILE * 2))
 	{
-		dx = (int)(cos((double)g->map.player.angle * M_PI / 180.0)
+		dx = -(int)(cos(-(double)g->map.player.angle * M_PI / 180.0)
 				* (double)i);
-		dy = (int)(-sin((double)g->map.player.angle * M_PI / 180.0)
+		dy = (int)(sin(-(double)g->map.player.angle * M_PI / 180.0)
 				* (double)i);
 		mm_pix(g, MM_PAD + px * MM_TILE + MM_TILE / 2 + dx,
 			MM_PAD + py * MM_TILE + MM_TILE / 2 + dy, MM_COLOR_PLAYER);
