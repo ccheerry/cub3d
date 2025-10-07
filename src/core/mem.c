@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mem.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:13:18 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/06 22:14:45 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 01:38:37 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	free_bonus(t_game *game)
 	i = -1;
 	if (game->door_tex.img)
 		mlx_destroy_image(game->mlx, game->door_tex.img);
-	ft_free((void **)&game->doors);
-	ft_free((void **)&game->enemies);
+	free(game->doors);
+	free(game->enemies);
 	while (++i < ENEMY_FRAMES)
 	{
 		if (game->enemy_anim.frames[i].img)

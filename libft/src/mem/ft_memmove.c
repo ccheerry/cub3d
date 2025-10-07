@@ -5,32 +5,31 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 17:13:42 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/02 19:54:21 by acerezo-         ###   ########.fr       */
+/*   Created: 2025/10/07 01:56:06 by acerezo-          #+#    #+#             */
+/*   Updated: 2025/10/07 01:56:06 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mem.h"
 
-inline void	*ft_memmove(void *__restrict__ dest,
-	const void *__restrict__ src, size_t n)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	t_u8	*bd;
-	t_u8	*bs;
+	unsigned char	*ptr_dst;
+	unsigned char	*ptr_src;
 
-	if ((!dest || !src || dest == src) && n != 0)
-		return (NULL);
-	if ((t_uptr)src < (t_uptr)dest
-		&& (t_uptr)src + n >= (t_uptr)dest)
+	ptr_dst = (unsigned char *)dest;
+	ptr_src = (unsigned char *)src;
+	if (ptr_dst < ptr_src)
 	{
-		bd = (t_u8 *)dest + n;
-		bs = (t_u8 *)src + n;
-		_copy_u128_bw((void **)&bd, (const void **)&bs, &n);
-		_copy_u64_bw((void **)&bd, (const void **)&bs, &n);
-		_copy_u32_bw((void **)&bd, (const void **)&bs, &n);
-		_copy_u8_bw((void **)&bd, (const void **)&bs, &n);
+		while (n--)
+			*ptr_dst++ = *ptr_src++;
 	}
 	else
-		ft_memcpy(dest, src, n);
+	{
+		ptr_dst += n;
+		ptr_src += n;
+		while (n--)
+			*--ptr_dst = *--ptr_src;
+	}
 	return (dest);
 }

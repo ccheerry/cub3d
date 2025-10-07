@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 17:13:41 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/02 19:54:21 by acerezo-         ###   ########.fr       */
+/*   Created: 2025/10/07 01:57:32 by acerezo-          #+#    #+#             */
+/*   Updated: 2025/10/07 01:57:33 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	*ft_alloc_align(size_t size, size_t align)
 {
-	void	*tab;
-	size_t	alloc_size;
-	t_uptr	cc;
-	void	*ac;
+	void		*tab;
+	size_t		alloc_size;
+	uintptr_t	cc;
+	void		*ac;
 
 	if ((align == 0) || ((align & (align - 1)) != 0))
 		return (NULL);
@@ -29,7 +29,7 @@ void	*ft_alloc_align(size_t size, size_t align)
 	tab = malloc(alloc_size);
 	if (!tab)
 		return (NULL);
-	cc = (t_uptr)tab + sizeof(void *);
+	cc = (uintptr_t)tab + sizeof(void *);
 	ac = (void *)((cc + (align - 1)) & ~(align - 1));
 	return (((void **)ac)[-1] = tab, ac);
 }

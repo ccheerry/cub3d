@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 17:13:42 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/09/02 19:54:21 by acerezo-         ###   ########.fr       */
+/*   Created: 2025/10/07 01:54:49 by acerezo-          #+#    #+#             */
+/*   Updated: 2025/10/07 01:54:50 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_vec	ft_vec(size_t alloc_size, size_t sizeof_type)
 		return ((t_vec){0});
 	out.size = 0;
 	out.alloc_size = alloc_size;
-	out.data = ft_alloc(alloc_size * sizeof_type);
+	out.data = malloc(alloc_size * sizeof_type);
 	if (!out.data)
 		return ((t_vec){0});
 	out.sizeof_type = sizeof_type;

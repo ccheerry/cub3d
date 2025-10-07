@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:11:36 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/03 12:39:13 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 01:38:46 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,17 @@ void	init_game(char *filename)
 	game->map.colors.ceiling_b = -1;
 	if (!init_mlx(game))
 		return (ft_putstr_fd("Error:\nMLX init failed\n", 2),
-			ft_free((void **)&game));
+			free(game));
 	if (!parse_map_file(filename, &game->map, game))
 		return (ft_putstr_fd("Error:\nInvalid map\n", 2),
-			free_mlx(game), free_map(&game->map), ft_free((void **)&game));
+			free_mlx(game), free_map(&game->map), free(game));
 	game->map.player.x += 0.5f;
 	game->map.player.y += 0.5f;
 	game_init_enemies(game);
 	game_init_doors(game);
 	if (!start_window(game))
 		return (ft_putstr_fd("Error:\nWindow init failed\n", 2),
-			free_map(&game->map), free_mlx(game), ft_free((void **)&game));
+			free_map(&game->map), free_mlx(game), free(game));
 	mlx_loop(game->mlx);
 }
 

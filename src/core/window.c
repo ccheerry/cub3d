@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 23:17:50 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/06 22:40:55 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 01:38:21 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	on_close(t_game *g)
 	mlx_do_key_autorepeaton(g->mlx);
 	free_mlx(g);
 	free_map(&g->map);
-	ft_free((void **)&g);
+	free(g);
 	exit(0);
 	return (0);
 }
