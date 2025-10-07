@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 22:23:16 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 02:09:25 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 02:28:19 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	mouse_init(t_game *g)
 	cy = WINDOW_HEIGHT / 2;
 	g->mouse.last_x = cx;
 	g->mouse.last_y = cy;
-	mlx_mouse_hide(g->mlx, g->win); // contemplar mañana alternativas
+	mlx_mouse_hide(g->mlx, g->win);
 }
 
 int	mouse_move_hook(int x, int y, t_game *g)

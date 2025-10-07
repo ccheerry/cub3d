@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_grid.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:05:25 by albcamac          #+#    #+#             */
-/*   Updated: 2025/09/30 17:28:27 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 02:39:27 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,43 @@ int	push_map_line(t_map *map, char *cstr_line)
 }
 
 /*
+** check_no_content_after_map:
+**   Verifica que después del mapa no haya más contenido.
+**   Lee todas las líneas restantes y retorna 0 si encuentra cualquier
+**   línea con contenido (que no sea solo '\n' o vacía).
+*/
+static int	check_no_content_after_map(int fd)
+{
+	t_string	line;
+	size_t		i;
+
+	line = get_next_line(fd);
+	while (line.len > 0)
+	{
+		i = 0;
+		while (i < line.len && line.data[i])
+		{
+			if (line.data[i] != '\n' && line.data[i] != '\0')
+			{
+				ft_tstr_free(&line);
+				return (0);
+			}
+			i++;
+		}
+		ft_tstr_free(&line);
+		line = get_next_line(fd);
+	}
+	ft_tstr_free(&line);
+	return (1);
+}
+
+/*
 ** read_map_lines_loop:
 **   Lee todas las líneas siguientes del mapa desde el descriptor fd.
 **   - Si encuentra una línea inválida, limpia el grid y devuelve 0.
 **   - Si la línea es válida, la añade al grid.
 **   - Termina al encontrar una línea vacía o no perteneciente al mapa.
+**   - Verifica que no haya contenido después del mapa.
 **   Devuelve 1 si todo fue correcto, 0 en caso de error.
 */
 int	read_map_lines_loop(int fd, t_map *map)
@@ -67,8 +99,7 @@ int	read_map_lines_loop(int fd, t_map *map)
 			if (!is_valid_line(line.data))
 			{
 				ft_tstr_free(&line);
-				clear_grid_strings(map);
-				return (0);
+				return (clear_grid_strings(map), 0);
 			}
 			push_map_line(map, line.data);
 			ft_tstr_free(&line);
@@ -76,6 +107,8 @@ int	read_map_lines_loop(int fd, t_map *map)
 		else
 		{
 			ft_tstr_free(&line);
+			if (!check_no_content_after_map(fd))
+				return (clear_grid_strings(map), 0);
 			break ;
 		}
 		line = get_next_line(fd);
