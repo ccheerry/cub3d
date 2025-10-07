@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 15:22:02 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 17:02:06 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:38:35 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ static int	compute_tex_x(t_img *t, const t_drawctx *ctx)
 		wallx = (double)ctx->hitx;
 	wallx = wallx - floor(wallx);
 	texx = (int)(wallx * (double)t->w);
-	if (ctx->side == 0 && ctx->dirx > 0.0f)
+	if (ctx->side == 0 && ctx->dirx < 0.0f)
 		texx = t->w - texx - 1;
-	if (ctx->side == 1 && ctx->diry < 0.0f)
+	if (ctx->side == 1 && ctx->diry > 0.0f)
 		texx = t->w - texx - 1;
 	return (texx);
 }

@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 23:17:50 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 17:14:17 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:47:28 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	start_window(t_game *g)
 	if (!create_frame(g, WINDOW_WIDTH, WINDOW_HEIGHT))
 		return (0);
 	mouse_init(g);
-	g->move_speed = 0.07f;
-	g->rot_speed = 2.5f * M_PI / 180.0f;
+	g->move_speed = 0.022f;
+	g->rot_speed = 0.7f * M_PI / 180.0f;
 	mlx_hook(g->win, 6, 1L << 6, mouse_move_hook, g);
 	mlx_hook(g->win, ON_KEYDOWN, MASK_KEYPRESS, on_key_press, g);
 	mlx_hook(g->win, ON_KEYUP, MASK_KEYRELEASE, on_key_release, g);

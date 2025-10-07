@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:33:41 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 14:09:08 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:11:54 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	init_move_vectors(t_game *g, t_move *mv)
 
 	p = &g->map.player;
 	ang = (double)p->angle * M_PI / 180.0;
-	mv->dx = (float)cos(ang);
+	mv->dx = (float)(-cos(ang));
 	mv->dy = (float)(-sin(ang));
 	mv->sx = -mv->dy;
 	mv->sy = mv->dx;
@@ -70,13 +70,13 @@ static void	accumulate_keys(t_game *g, t_move *mv)
 	}
 	if (g->keys.a)
 	{
-		mv->nx += mv->sx * g->move_speed;
-		mv->ny += mv->sy * g->move_speed;
+		mv->nx -= mv->sx * g->move_speed;
+		mv->ny -= mv->sy * g->move_speed;
 	}
 	if (g->keys.d)
 	{
-		mv->nx -= mv->sx * g->move_speed;
-		mv->ny -= mv->sy * g->move_speed;
+		mv->nx += mv->sx * g->move_speed;
+		mv->ny += mv->sy * g->move_speed;
 	}
 }
 

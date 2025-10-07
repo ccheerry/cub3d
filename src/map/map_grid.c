@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:05:25 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 13:52:08 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:22:11 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	read_map_lines_loop(int fd, t_map *map)
 		}
 		line = get_next_line(fd);
 	}
+	ft_tstr_free(&line);
 	return (1);
 }
 

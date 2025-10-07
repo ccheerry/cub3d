@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 23:13:29 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 14:02:55 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:05:15 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	ray_init_basic(t_game *g, t_ray *r, float ang)
 	double	dx;
 	double	dy;
 
-	dx = cos(ang);
+	dx = -cos(ang);
 	dy = -sin(ang);
 	r->dirx = (float)dx;
 	r->diry = (float)dy;

@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:09:41 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/06 15:56:14 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:09:47 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	project_enemy(t_game *g, int i, t_proj *out, float *perp)
 	double	a;
 	double	fov;
 
-	dx = g->enemies[i].x - g->map.player.x;
+	dx = -(g->enemies[i].x - g->map.player.x);
 	dy = -(g->enemies[i].y - g->map.player.y);
 	a = atan2((double)dy, (double)dx)
 		- ((double)g->map.player.angle) * M_PI / 180.0;
