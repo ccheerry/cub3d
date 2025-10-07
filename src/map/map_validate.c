@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validate.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:21:49 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/01 21:56:16 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:57:47 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 /*
 ** is_valid_line:
-**   Comprueba si una línea del mapa contiene únicamente caracteres válidos.
-**   Los caracteres permitidos son:
-**     - '0' (espacio vacío)
-**     - '1' (muro)
-**     - 'N', 'S', 'E', 'W' (posiciones iniciales del jugador)
-**     - ' ' (espacio)
-**   Devuelve true si la línea es válida, false si encuentra algún
-**   carácter no permitido.
+**   Checks if a map line contains only valid characters.
+**   Allowed characters are:
+**     - '0' (empty space)
+**     - '1' (wall)
+**     - 'N', 'S', 'E', 'W' (player starting positions)
+**     - ' ' (space)
 */
+
 bool	is_valid_line(char *line)
 {
 	int	i;

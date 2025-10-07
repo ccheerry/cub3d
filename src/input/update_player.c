@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:33:41 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/06 21:20:59 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:09:08 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 /*
 ** rotate_player:
-**   Aplica la rotación al jugador en función de las teclas de dirección
-**   izquierda o derecha. La velocidad de giro está determinada por rot_speed.
+**   Applies rotation to the player based on left or right arrow keys.
+**   The rotation speed is determined by rot_speed.
 */
+
 static void	rotate_player(t_game *g)
 {
 	t_player	*p;
@@ -30,9 +31,10 @@ static void	rotate_player(t_game *g)
 
 /*
 ** init_move_vectors:
-**   Calcula los vectores de movimiento (frontal y lateral) a partir del ángulo
-**   actual del jugador. Inicializa también la posición destino provisional.
+**   Calculates movement vectors (forward and lateral) from the player's
+**   current angle. Also initializes the provisional target position.
 */
+
 static void	init_move_vectors(t_game *g, t_move *mv)
 {
 	t_player	*p;
@@ -50,9 +52,10 @@ static void	init_move_vectors(t_game *g, t_move *mv)
 
 /*
 ** accumulate_keys:
-**   Ajusta la posición destino provisional según las teclas WASD pulsadas.
-**   Cada tecla mueve al jugador hacia delante, atrás o en strafe lateral.
+**   Adjusts the provisional target position according to WASD keys pressed.
+**   Each key moves the player forward, backward, or strafing laterally.
 */
+
 static void	accumulate_keys(t_game *g, t_move *mv)
 {
 	if (g->keys.w)
@@ -79,9 +82,10 @@ static void	accumulate_keys(t_game *g, t_move *mv)
 
 /*
 ** try_commit_move:
-**   Aplica el movimiento calculado, comprobando colisiones contra muros.
-**   Se validan los ejes X e Y por separado para permitir deslizamiento.
+**   Applies the calculated movement, checking collisions against walls.
+**   X and Y axes are validated separately to allow sliding.
 */
+
 static void	try_commit_move(t_game *g, t_move *mv)
 {
 	t_player	*p;
@@ -95,10 +99,11 @@ static void	try_commit_move(t_game *g, t_move *mv)
 
 /*
 ** update_player:
-**   Actualiza la posición y rotación del jugador en función del input.
-**   Incluye manejo de teclas WASD, rotación y colisiones.
-**   Si se pulsa ESC, se cierra el juego.
+**   Updates the player's position and rotation based on input.
+**   Includes handling of WASD keys, rotation and collisions.
+**   If ESC is pressed, the game closes.
 */
+
 void	update_player(t_game *g)
 {
 	t_move	mv;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_surround.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:06:04 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/01 21:56:27 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:56:57 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 /*
 ** is_map_line:
-**   Comprueba si una línea pertenece al mapa.
-**   Devuelve 1 si contiene caracteres válidos del mapa
-**   (0, 1, N, S, E, W o espacios). Devuelve 0 si no.
+**   Checks if a line belongs to the map.
+**   Returns 1 if it contains valid map characters
+**   (0, 1, N, S, E, W or spaces).
 */
+
 int	is_map_line(char *line)
 {
 	int		i;
@@ -45,9 +46,9 @@ int	is_map_line(char *line)
 
 /*
 ** get_char_at:
-**   Devuelve el caracter en la posición x de una fila (t_string).
-**   Si la posición es inválida, devuelve '\0'.
+**   Returns the character at position x of a row.
 */
+
 static char	get_char_at(t_string *row, int x)
 {
 	if (!row || x < 0 || x >= (int)row->len)
@@ -57,9 +58,9 @@ static char	get_char_at(t_string *row, int x)
 
 /*
 ** cell_requires_wall:
-**   Indica si una celda (0 o jugador) debe estar rodeada de muros válidos.
-**   Devuelve 1 si requiere comprobación de muros, 0 en caso contrario.
+**   Indicates if a cell (0 or player) must be surrounded by valid walls.
 */
+
 static int	cell_requires_wall(t_string *row, int x)
 {
 	char	c;
@@ -74,10 +75,10 @@ static int	cell_requires_wall(t_string *row, int x)
 
 /*
 ** neighbors_invalid:
-**   Comprueba si alrededor de una celda caminable hay espacios vacíos
-**   o caracteres inválidos (espacios, '\0', '\n').
-**   Devuelve 1 si los vecinos son inválidos, 0 si todo es correcto.
+**   Checks if around a walkable cell there are empty spaces
+**   or invalid characters (spaces, '\0', '\n').
 */
+
 static int	neighbors_invalid(t_map *map, int y, int x)
 {
 	t_string	*row;
@@ -97,12 +98,6 @@ static int	neighbors_invalid(t_map *map, int y, int x)
 	return (0);
 }
 
-/*
-** is_map_surrounded:
-**   Recorre todo el grid del mapa comprobando que todas las celdas
-**   caminables (0 o jugador) están rodeadas por muros válidos.
-**   Devuelve true si el mapa está cerrado, false en caso contrario.
-*/
 bool	is_map_surrounded(t_map *map)
 {
 	int			y;

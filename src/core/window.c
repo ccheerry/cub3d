@@ -14,9 +14,9 @@
 
 /*
 ** create_frame:
-**   Crea una nueva imagen de renderizado en memoria usando MiniLibX.
-**   Inicializa la estructura `frame` con el buffer, tamaño y formato.
-**   Devuelve 1 en éxito, 0 en caso de error.
+**   Creates a new rendering image in memory using MiniLibX.
+**   Initializes the `frame` structure with buffer, size and format.
+**   Returns 1 on success, 0 on error.
 */
 static int	create_frame(t_game *g, int w, int h)
 {
@@ -34,10 +34,10 @@ static int	create_frame(t_game *g, int w, int h)
 
 /*
 ** start_window:
-**   Crea la ventana principal del juego y el framebuffer.
-**   Inicializa la velocidad de movimiento y rotación del jugador.
-**   Registra los hooks de teclado, cierre y renderizado en bucle.
-**   Devuelve 1 en éxito, 0 en caso de error.
+**   Creates the main game window and framebuffer.
+**   Initializes player movement and rotation speed.
+**   Registers keyboard, close and loop rendering hooks.
+**   Returns 1 on success, 0 on error.
 */
 int	start_window(t_game *g)
 {
@@ -60,8 +60,8 @@ int	start_window(t_game *g)
 
 /*
 ** on_close:
-**   Callback para cuando se cierra la ventana o se pulsa ESC.
-**   Libera memoria de la ventana, mapa y juego, y termina el proceso.
+**   Callback for when the window is closed or ESC is pressed.
+**   Frees window, map and game memory, and terminates the process.
 */
 int	on_close(t_game *g)
 {

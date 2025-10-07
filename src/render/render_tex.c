@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_tex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 15:22:02 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/02 15:31:36 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:04:02 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 /*
 ** pick_wall_texture:
-**   Devuelve el puntero a la textura de muro correspondiente
-**   según el lado impactado y la dirección del rayo.
-**   - side == 0 → eje X (este/oeste).
-**   - side == 1 → eje Y (norte/sur).
+**   Returns the pointer to the corresponding wall texture
+**   according to the hit side and ray direction.
+**   - side == 0 → X axis (east/west).
+**   - side == 1 → Y axis (north/south).
 */
+
 t_img	*pick_wall_texture(t_game *g, int side, float dirx, float diry)
 {
 	if (side == 0)
@@ -33,10 +34,11 @@ t_img	*pick_wall_texture(t_game *g, int side, float dirx, float diry)
 }
 
 /*
-** texel (privada):
-**   Devuelve el color (ARGB) de un píxel de la textura en la posición (tx, ty).
-**   Limita coordenadas fuera de rango para evitar errores.
+** texel:
+**   Returns the color (ARGB) of a texture pixel at position (tx, ty).
+**   Clamps out-of-range coordinates to avoid errors.
 */
+
 static unsigned int	texel(t_img *t, int tx, int ty)
 {
 	char	*px;
@@ -54,11 +56,12 @@ static unsigned int	texel(t_img *t, int tx, int ty)
 }
 
 /*
-** compute_tex_x (privada):
-**   Calcula la coordenada X de la textura (texx) en función
-**   del punto de impacto del rayo y el lado golpeado.
-**   Ajusta para reflejar correctamente la orientación del muro.
+** compute_tex_x:
+**   Calculates the texture X coordinate (texx) based on
+**   the ray's hit point and the side hit.
+**   Adjusts to correctly reflect the wall's orientation.
 */
+
 static int	compute_tex_x(t_img *t, const t_drawctx *ctx)
 {
 	double	wallx;
@@ -77,13 +80,14 @@ static int	compute_tex_x(t_img *t, const t_drawctx *ctx)
 }
 
 /*
-** draw_tex_loop (privada):
-**   Recorre los píxeles verticales de la columna y pinta cada
-**   uno con el color de la textura correspondiente.
-**   Aplica sombreado (oscurece) en paredes Y para dar efecto 3D.
-**   Usa line_height para calcular el paso correcto de textura,
-**   evitando estiramiento cuando el muro está parcialmente fuera de pantalla.
+** draw_tex_loop:
+**   Iterates through the column's vertical pixels and paints each
+**   one with the corresponding texture color.
+**   Applies shading (darkening) on Y walls for 3D effect.
+**   Uses line_height to calculate the correct texture step,
+**   avoiding stretching when the wall is partially off screen.
 */
+
 static void	draw_tex_loop(t_game *g, int x, t_img *t, const t_texloop *p)
 {
 	double			step;
@@ -109,10 +113,11 @@ static void	draw_tex_loop(t_game *g, int x, t_img *t, const t_texloop *p)
 
 /*
 ** draw_column_textured:
-**   Función pública principal.
-**   Prepara los parámetros de la textura para la columna actual
-**   y llama al bucle de pintado para renderizar el muro en pantalla.
+**   Main public function.
+**   Prepares texture parameters for the current column
+**   and calls the painting loop to render the wall on screen.
 */
+
 void	draw_column_textured(t_game *g, int x, const t_drawctx *ctx)
 {
 	t_img		*t;

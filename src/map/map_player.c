@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map_player.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:06:32 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/01 18:05:04 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:53:49 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-** is_player_char:
-**   Devuelve 1 si el caracter es válido como posición inicial del jugador
-**   ('N', 'S', 'E' o 'W'), 0 en caso contrario.
-*/
 static int	is_player_char(char c)
 {
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
@@ -24,11 +19,6 @@ static int	is_player_char(char c)
 	return (0);
 }
 
-/*
-** set_player_angle:
-**   Ajusta el ángulo de orientación inicial del jugador en función del
-**   caracter encontrado ('N', 'S', 'E', 'W').
-*/
 static void	set_player_angle(t_map *map, char c)
 {
 	if (c == 'N')
@@ -41,11 +31,6 @@ static void	set_player_angle(t_map *map, char c)
 		map->player.angle = 180;
 }
 
-/*
-** handle_player_at:
-**   Configura la posición y orientación del jugador en (x, y).
-**   Devuelve 0 si ya había un jugador definido, 1 si se asigna correctamente.
-*/
 static int	handle_player_at(t_map *map, int x, int y, char c)
 {
 	if (map->player.orientation != 0)
@@ -60,12 +45,6 @@ static int	handle_player_at(t_map *map, int x, int y, char c)
 	return (1);
 }
 
-/*
-** scan_row_for_player:
-**   Recorre una fila del mapa buscando un caracter de jugador.
-**   Si encuentra más de uno, devuelve 0 (error).
-**   Si es válido, asigna la posición y orientación.
-*/
 static int	scan_row_for_player(t_map *map, t_string *row, int y)
 {
 	int	x;
@@ -85,10 +64,10 @@ static int	scan_row_for_player(t_map *map, t_string *row, int y)
 
 /*
 ** find_player:
-**   Busca en todo el grid del mapa la posición inicial del jugador.
-**   Actualiza map->player y map->width según el contenido del mapa.
-**   Devuelve true si encuentra un único jugador válido, false en caso contrario.
+**   Searches the entire map grid for the player's starting position.
+**   Updates map->player and map->width according to the map content.
 */
+
 bool	find_player(t_map *map)
 {
 	int			y;

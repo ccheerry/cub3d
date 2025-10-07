@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:02 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/06 22:32:19 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:14:11 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ double	sqrt(double x);
 # define WINDOW_HEIGHT 900
 # define TEXTURE_SIZE 64
 # define FOV 60
-# define PLAYER_RADIUS 0.30f   /* antes 0.25f -> te separa más del muro */
-# define WALL_PADDING  0.05f   /* margen extra para evitar roce */
-# define NEAR_CLIP     0.50f   /* recorte mínimo de distancia en raycast */
+# define PLAYER_RADIUS 0.30f   /* previously 0.25f -> keeps you further from walls */
+# define WALL_PADDING  0.05f   /* extra margin to prevent wall clipping */
+# define NEAR_CLIP     0.50f   /* minimum distance clipping in raycast */
 
 # define ON_KEYDOWN 2
 # define ON_KEYUP 3
@@ -62,7 +62,7 @@ double	sqrt(double x);
 # define KEY_S 115
 # define KEY_D 100
 
-/* === Sprites / Enemigos === */
+/* === Sprites / Enemies === */
 # ifndef ENEMY_FRAMES
 #  define ENEMY_FRAMES 4
 # endif
@@ -113,13 +113,13 @@ double	sqrt(double x);
 
 /* === Mouse look === */
 # ifndef MOUSE_SENS
-#  define MOUSE_SENS 0.05f/* grados por píxel */
+#  define MOUSE_SENS 0.05f/* degrees per pixel */
 # endif
 # ifndef MOUSE_MAX_STEP
-#  define MOUSE_MAX_STEP 20/* píxeles máx por evento */
+#  define MOUSE_MAX_STEP 20/* max pixels per event */
 # endif
 # ifndef MOUSE_DEAD
-#  define MOUSE_DEAD 2/* zona muerta en píxeles */
+#  define MOUSE_DEAD 2/* dead zone in pixels */
 # endif
 
 typedef struct s_mouse
@@ -131,9 +131,9 @@ typedef struct s_mouse
 
 typedef struct s_door
 {
-	int		x;/* celda grid */
-	int		y;/* celda grid */
-	float	t;/* 0.0 cerrado -> 1.0 abierto */
+	int		x;
+	int		y;
+	float	t;/* 0.0 closed -> 1.0 open */
 }	t_door;
 
 typedef struct s_vbuf
@@ -314,7 +314,7 @@ typedef struct s_game
 	t_keys		keys;
 	float		move_speed;
 	float		rot_speed;
-	float		zbuf[WINDOW_WIDTH]; /* z-buffer por columna */
+	float		zbuf[WINDOW_WIDTH]; /* z-buffer per column */
 	t_enemy		*enemies;
 	int			enemy_count;
 	t_anim		enemy_anim;
@@ -328,9 +328,7 @@ typedef struct s_game
 bool	is_valid_line(char *line);
 bool	parse_elements(char *line, t_map *map, t_game *game);
 bool	validate_textures(t_map *map);
-void	init_game(char *filename);
 void	free_map(t_map *map);
-int		init_mlx(t_game *game);
 void	free_mlx(t_game *game);
 int		apply_color(t_map *map, char *key, char *value);
 
@@ -394,7 +392,7 @@ void	fill_len(t_string *row, size_t *len);
 void	set_enemy(t_enemy *e, size_t x, size_t y);
 void	fill_row_enemies(t_string *row, size_t y, t_enemy *list, int *i);
 
-/* puertas */
+/* doors */
 int		find_doors(t_game *g);
 void	update_doors(t_game *g);
 int		load_door_texture(t_game *g);

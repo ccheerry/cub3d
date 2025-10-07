@@ -6,17 +6,12 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:41:32 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/07 03:23:58 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:52:20 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-** has_cub_ext:
-**   Comprueba que el nombre de fichero termine en ".cub".
-**   Devuelve 1 si la extensión es correcta, 0 en caso contrario.
-*/
 static int	has_cub_ext(char *filename)
 {
 	size_t	len;
@@ -31,11 +26,11 @@ static int	has_cub_ext(char *filename)
 
 /*
 ** process_until_map:
-**   Lee líneas del descriptor 'fd' hasta encontrar el comienzo del mapa.
-**   - Si la línea es de elementos (NO/SO/EA/WE/F/C), llama a parse_elements().
-**   - Si la línea parece de mapa, valida y delega en parse_map_grid().
-**   Devuelve 1 si el mapa comienza y se parsea bien, 0 si hay error.
+**   Reads 'fd' until it finds the beginning of the map.
+**   - If the line is an element (NO/SO/EA/WE/F/C), calls parse_elements().
+**   - If the line looks like a map, validates and delegates to parse_map_grid().
 */
+
 static int	process_until_map(int fd, t_map *map, t_game *game)
 {
 	t_string	line;
@@ -66,13 +61,13 @@ static int	process_until_map(int fd, t_map *map, t_game *game)
 
 /*
 ** parse_map_file:
-**   Punto de entrada del parseo del .cub:
-**   - Verifica extensión.
-**   - Abre el archivo y procesa encabezado + mapa.
-**   - Comprueba que existan todos los elementos y el jugador.
-**   - Valida que las texturas se cargaron correctamente.
-**   Devuelve true si todo es válido, false si hay cualquier error.
+**   Entry point for parsing the .cub file:
+**   - Verifies extension.
+**   - Opens file and processes header + map.
+**   - Checks that all required elements and player exist.
+**   - Validates that textures loaded correctly.
 */
+
 bool	parse_map_file(char *filename, t_map *map, t_game *game)
 {
 	int	fd;

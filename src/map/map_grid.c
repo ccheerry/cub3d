@@ -6,17 +6,12 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:05:25 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 03:23:36 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:52:08 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-** clear_grid_strings:
-**   Libera todos los t_string almacenados en el grid del mapa y luego
-**   libera también el vector dinámico que los contiene.
-*/
 void	clear_grid_strings(t_map *map)
 {
 	size_t		i;
@@ -33,11 +28,6 @@ void	clear_grid_strings(t_map *map)
 	ft_vec_free(&map->grid);
 }
 
-/*
-** push_map_line:
-**   Crea un t_string a partir de una línea en C y lo añade al grid del mapa.
-**   Devuelve siempre 1 (éxito).
-*/
 int	push_map_line(t_map *map, char *cstr_line)
 {
 	t_string	copy;
@@ -47,12 +37,6 @@ int	push_map_line(t_map *map, char *cstr_line)
 	return (1);
 }
 
-/*
-** check_no_content_after_map:
-**   Verifica que después del mapa no haya más contenido.
-**   Lee todas las líneas restantes y retorna 0 si encuentra cualquier
-**   línea con contenido (que no sea solo '\n' o vacía).
-*/
 static int	check_no_content_after_map(int fd)
 {
 	t_string	line;
@@ -80,13 +64,13 @@ static int	check_no_content_after_map(int fd)
 
 /*
 ** read_map_lines_loop:
-**   Lee todas las líneas siguientes del mapa desde el descriptor fd.
-**   - Si encuentra una línea inválida, limpia el grid y devuelve 0.
-**   - Si la línea es válida, la añade al grid.
-**   - Termina al encontrar una línea vacía o no perteneciente al mapa.
-**   - Verifica que no haya contenido después del mapa.
-**   Devuelve 1 si todo fue correcto, 0 en caso de error.
+**   Reads all following map lines from file descriptor fd.
+**   - If it finds an invalid line, clears the grid and returns 0.
+**   - If the line is valid, adds it to the grid.
+**   - Terminates upon finding an empty line or non-map line.
+**   - Verifies there is no content after the map.
 */
+
 int	read_map_lines_loop(int fd, t_map *map)
 {
 	t_string	line;
@@ -115,15 +99,6 @@ int	read_map_lines_loop(int fd, t_map *map)
 	return (1);
 }
 
-/*
-** parse_map_grid:
-**   Construye la estructura de grid del mapa a partir de la primera línea
-**   y del resto leídas desde el fd.
-**   - Valida cada línea.
-**   - Verifica que el mapa tenga al menos 3 filas.
-**   - Comprueba que esté correctamente rodeado de muros.
-**   Devuelve true si el mapa es válido, false si falla alguna comprobación.
-*/
 bool	parse_map_grid(int fd, t_map *map, char *first_line)
 {
 	map->grid = ft_vec(10, sizeof(t_string));

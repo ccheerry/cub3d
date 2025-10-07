@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:22:19 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 03:28:02 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:49:25 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 /*
 ** trim_newline:
-**   Elimina caracteres de salto de línea ('\n' o '\r') al final de la cadena.
-**   Devuelve el mismo puntero con la cadena modificada en su lugar.
+**   Removes newline characters ('\n' or '\r') from the end of the string.
+**   Returns the same pointer with the string modified in place.
 */
+
 static char	*trim_newline(char *str)
 {
 	size_t	len;
@@ -34,10 +35,10 @@ static char	*trim_newline(char *str)
 
 /*
 ** get_tx_targ:
-**   A partir de la clave ("NO", "SO", "EA", "WE"), devuelve los punteros
-**   correspondientes a la textura y a la ruta almacenada en el mapa.
-**   Devuelve 1 si la clave es válida, 0 en caso contrario.
+**   Based on the key ("NO", "SO", "EA", "WE"), returns the pointers
+**   corresponding to the texture and path stored in the map.
 */
+
 static int	get_tx_targ(t_map *map, char *key, t_img **out_img, t_string **path)
 {
 	if (ft_strcmp(key, "NO") == 0)
@@ -67,12 +68,6 @@ static int	get_tx_targ(t_map *map, char *key, t_img **out_img, t_string **path)
 	return (0);
 }
 
-/*
-** apply_texture:
-**   Carga una textura desde disco según la clave dada ("NO", "SO", "EA", "WE").
-**   Guarda la ruta en el mapa y carga la imagen en memoria con load_texture().
-**   Devuelve 1 si tuvo éxito, 0 en caso contrario.
-*/
 static int	apply_texture(t_game *game, t_map *map, char *key, char *path)
 {
 	t_img		*img;
@@ -100,13 +95,6 @@ static int	apply_texture(t_game *game, t_map *map, char *key, char *path)
 	return (1);
 }
 
-/*
-** parse_elements:
-**   Interpreta una línea de la configuración del mapa (.cub).
-**   - Si la línea define una textura ("NO/SO/EA/WE"), la carga.
-**   - Si la línea define un color ("F" o "C"), lo aplica.
-**   Devuelve true si la línea fue válida, false en caso de error.
-*/
 bool	parse_elements(char *line, t_map *map, t_game *game)
 {
 	char	**parts;

@@ -3,21 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map_colors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:28:58 by albcamac          #+#    #+#             */
-/*   Updated: 2025/09/30 17:26:03 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:48:35 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-** parse_color (función auxiliar privada):
-**   Convierte una cadena con formato "R,G,B" en tres enteros.
-**   Valida que los valores estén en el rango [0, 255].
-**   Devuelve 1 si es válido, 0 si falla el parseo o el rango.
-*/
 static int	parse_color(char *str, int *r, int *g, int *b)
 {
 	char	**parts;
@@ -42,13 +36,6 @@ static int	parse_color(char *str, int *r, int *g, int *b)
 	return (1);
 }
 
-/*
-** apply_color:
-**   Aplica un color al mapa dependiendo de la clave:
-**   - "F": asigna el color del suelo.
-**   - "C": asigna el color del techo.
-**   Devuelve 1 si se asignó correctamente, 0 en caso de error.
-*/
 int	apply_color(t_map *map, char *key, char *value)
 {
 	int	result;

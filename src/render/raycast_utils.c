@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 17:08:08 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/01 16:29:58 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:00:58 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 /*
 ** compute_ray_angle:
-**   Calcula el ángulo del rayo correspondiente a una columna de la pantalla.
-**   Usa el FOV, la posición de la columna x y el ángulo del jugador.
+**   Calculates the ray angle corresponding to a screen column.
+**   Uses the FOV, column x position, and player's angle.
 */
+
 double	compute_ray_angle(t_game *g, int x)
 {
 	double	fov;
@@ -32,10 +33,11 @@ double	compute_ray_angle(t_game *g, int x)
 
 /*
 ** compute_bounds:
-**   A partir de la distancia perpendicular (perp), calcula las posiciones
-**   de inicio y fin (en píxeles) para dibujar la columna en pantalla.
-**   También guarda line_height sin recortar para el texturizado correcto.
+**   From the perpendicular distance (perp), calculates the start and end
+**   positions (in pixels) to draw the column on screen.
+**   Also saves line_height unclipped for correct texturing.
 */
+
 void	compute_bounds(float perp, t_colbounds *b)
 {
 	int	lineh;
@@ -56,9 +58,9 @@ void	compute_bounds(float perp, t_colbounds *b)
 
 /*
 ** cell_blocks:
-**   Comprueba si una celda del mapa (coordenadas mx, my) es un muro ('1').
-**   Devuelve 1 si bloquea el paso, 0 en caso contrario.
+**   Checks if a map cell (coordinates mx, my) is a wall ('1').
 */
+
 int	cell_blocks(t_map *m, int mx, int my)
 {
 	t_string	*row;
@@ -75,10 +77,11 @@ int	cell_blocks(t_map *m, int mx, int my)
 
 /*
 ** advance_dda_step:
-**   Avanza un paso en el algoritmo DDA.
-**   Decide si se cruza primero un eje X o Y y actualiza el lado impactado.
-**   side = 0 (eje X), side = 1 (eje Y).
+**   Advances one step in the DDA algorithm.
+**   Decides whether X or Y axis is crossed first and updates the hit side.
+**   side = 0 (X axis), side = 1 (Y axis).
 */
+
 void	advance_dda_step(t_ray *r)
 {
 	if (r->sdx < r->sdy)
@@ -97,10 +100,11 @@ void	advance_dda_step(t_ray *r)
 
 /*
 ** finalize_hit:
-**   Calcula la distancia perpendicular final al muro impactado y
-**   determina el punto exacto de impacto en el mundo (hitx, hity).
-**   También aplica un "clip" mínimo para evitar distorsiones.
+**   Calculates the final perpendicular distance to the hit wall and
+**   determines the exact hit point in world space (hitx, hity).
+**   Also applies a minimum "clip" to avoid distortions.
 */
+
 void	finalize_hit(t_game *g, t_ray *r)
 {
 	float	eps;

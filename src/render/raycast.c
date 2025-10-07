@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 23:13:29 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/02 15:36:59 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:02:55 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 /*
 ** ray_init_basic:
-**   Inicializa los parámetros básicos del rayo:
-**   - Direcciones (dirx, diry) a partir del ángulo.
-**   - Celda del mapa (mapx, mapy) desde la posición del jugador.
-**   - Distancias delta (ddx, ddy) para el DDA, evitando división por cero.
+**   Initializes the basic ray parameters:
+**   - Directions (dirx, diry) from the angle.
+**   - Map cell (mapx, mapy) from the player's position.
+**   - Delta distances (ddx, ddy) for DDA, avoiding division by zero.
 */
+
 static void	ray_init_basic(t_game *g, t_ray *r, float ang)
 {
 	double	dx;
@@ -42,9 +43,10 @@ static void	ray_init_basic(t_game *g, t_ray *r, float ang)
 
 /*
 ** ray_init_steps:
-**   Calcula el paso (stepx/stepy) y las distancias iniciales a la primera
-**   intersección de rejilla (sdx/sdy) según el signo de la dirección del rayo.
+**   Calculates the step (stepx/stepy) and initial distances to the first
+**   grid intersection (sdx/sdy) according to the ray direction's sign.
 */
+
 static void	ray_init_steps(t_game *g, t_ray *r)
 {
 	if (r->dirx < 0.0f)
@@ -71,11 +73,12 @@ static void	ray_init_steps(t_game *g, t_ray *r)
 
 /*
 ** ray_dda:
-**   Ejecuta el algoritmo DDA hasta impactar con un muro:
-**   - Avanza paso a paso (advance_dda_step).
-**   - Comprueba colisión con celda sólida (cell_blocks).
-**   - Al terminar, calcula distancia perpendicular y punto de impacto
+**   Executes the DDA algorithm until hitting a wall:
+**   - Advances step by step (advance_dda_step).
+**   - Checks collision with solid cell (cell_blocks).
+**   - Upon completion, calculates perpendicular distance and hit point.
 */
+
 static void	ray_dda(t_game *g, t_ray *r)
 {
 	int	hit;
@@ -92,13 +95,14 @@ static void	ray_dda(t_game *g, t_ray *r)
 
 /*
 ** cast_one_column:
-**   Lanza un rayo para la columna de pantalla 'x' y dibuja el muro visible:
-**   - Calcula el ángulo del rayo (compute_ray_angle).
-**   - Inicializa/avanza el DDA.
-**   - Aplica corrección de fisheye multiplicando por cos(angle_diff).
-**   - Calcula los límites verticales de dibujo (compute_bounds).
-**   - Rellena el contexto de texturizado y pinta la columna (draw_column_te
+**   Casts a ray for screen column 'x' and draws the visible wall:
+**   - Calculates the ray angle (compute_ray_angle).
+**   - Initializes/advances the DDA.
+**   - Applies fisheye correction by multiplying by cos(angle_diff).
+**   - Calculates vertical drawing boundaries (compute_bounds).
+**   - Fills the texturing context and paints the column (draw_column_textured).
 */
+
 void	cast_one_column(t_game *g, int x)
 {
 	double		ang;

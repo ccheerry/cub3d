@@ -3,21 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   input_keys.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:40:33 by albcamac          #+#    #+#             */
-/*   Updated: 2025/09/30 17:23:39 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:05:47 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-** on_key_press:
-**   Maneja la pulsación de teclas.
-**   Activa la bandera correspondiente en la estructura de teclas del juego.
-**   Devuelve siempre 0 (necesario para MLX hooks).
-*/
 int	on_key_press(int key, t_game *g)
 {
 	if (key == KEY_W)
@@ -37,12 +31,6 @@ int	on_key_press(int key, t_game *g)
 	return (0);
 }
 
-/*
-** on_key_release:
-**   Maneja la liberación de teclas.
-**   Desactiva la bandera correspondiente en la estructura de teclas del juego.
-**   Devuelve siempre 0 (necesario para MLX hooks).
-*/
 int	on_key_release(int key, t_game *g)
 {
 	if (key == KEY_W)

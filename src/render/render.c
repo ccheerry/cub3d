@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 23:08:45 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/06 21:10:41 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:11:35 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 /*
 ** rgb:
-**   Convierte tres componentes de color (R,G,B) en un valor entero único
-**   en formato 0xRRGGBB que puede usarse para pintar píxeles.
+**   Converts three color components (R,G,B) into a single integer value
+**   in 0xRRGGBB format that can be used to paint pixels.
 */
+
 int	rgb(int r, int g, int b)
 {
 	return (((r & 255) << 16) | ((g & 255) << 8) | (b & 255));
@@ -24,9 +25,9 @@ int	rgb(int r, int g, int b)
 
 /*
 ** put_pixel:
-**   Pinta un píxel en la posición (x,y) de la imagen indicada con el color dado.
-**   Comprueba límites para no escribir fuera de la memoria de la imagen.
+**   Paints a pixel at position (x,y) of the image with the given color.
 */
+
 void	put_pixel(t_img *img, int x, int y, int color)
 {
 	char	*dst;
@@ -39,10 +40,11 @@ void	put_pixel(t_img *img, int x, int y, int color)
 
 /*
 ** clear_sky_floor:
-**   Rellena el frame buffer con dos colores:
-**   - La mitad superior con el color del techo (sky).
-**   - La mitad inferior con el color del suelo (floor).
+**   Fills the frame buffer with two colors:
+**   - The upper half with the ceiling color (sky).
+**   - The lower half with the floor color.
 */
+
 void	clear_sky_floor(t_game *g)
 {
 	int	y;
@@ -72,10 +74,11 @@ void	clear_sky_floor(t_game *g)
 
 /*
 ** render_frame:
-**   Actualiza la posición del jugador, limpia el fondo con cielo/suelo
-**   y lanza un rayo por cada columna de la pantalla para renderizar el mundo.
-**   Finalmente, muestra el frame en la ventana con MiniLibX.
+**   Updates the player's position, clears the background with sky/floor
+**   and casts a ray for each screen column to render the world.
+**   Finally, displays the frame in the window.
 */
+
 int	render_frame(t_game *g)
 {
 	int	x;

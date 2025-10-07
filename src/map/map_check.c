@@ -6,18 +6,12 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:07:04 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/02 18:54:47 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:48:23 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-** all_elements_present:
-**   Comprueba si todas las texturas obligatorias (N, S, E, W)
-**   y los colores obligatorios (F, C) están cargados en el mapa.
-**   Devuelve true si todos existen, false si falta alguno.
-*/
 bool	all_elements_present(t_map *map)
 {
 	if (!map->textures.north.img)
@@ -39,12 +33,6 @@ bool	all_elements_present(t_map *map)
 	return (true);
 }
 
-/*
-** validate_textures:
-**   Valida que todas las texturas necesarias (N, S, E, W)
-**   se hayan cargado correctamente antes de iniciar el juego.
-**   Devuelve true si todas son válidas, false en caso contrario.
-*/
 bool	validate_textures(t_map *map)
 {
 	if (!map->textures.north.img)

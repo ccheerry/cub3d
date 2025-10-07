@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 23:19:49 by albcamac          #+#    #+#             */
-/*   Updated: 2025/09/30 17:42:22 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:07:19 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 /*
 ** is_wall:
-**   Devuelve 1 si la celda (x, y) del mapa es un muro o está fuera de rango.
-**   Devuelve 0 en caso contrario.
+**   Returns 1 if the map cell (x, y) is a wall or out of range.
+**   Returns 0 otherwise.
 */
+
 static int	is_wall(t_map *m, int x, int y)
 {
 	t_string	*row;
@@ -33,10 +34,11 @@ static int	is_wall(t_map *m, int x, int y)
 
 /*
 ** get_block_bounds:
-**   Calcula los límites de un rectángulo alrededor de la posición (x, y),
-**   considerando el radio r y un pequeño padding contra paredes.
-**   Los valores quedan guardados en la estructura t_bounds.
+**   Calculates the boundaries of a rectangle around position (x, y),
+**   considering radius r and a small padding against walls.
+**   Values are stored in the t_bounds structure.
 */
+
 static void	get_block_bounds(float x, float y, float r, t_bounds *b)
 {
 	double	rr;
@@ -50,9 +52,9 @@ static void	get_block_bounds(float x, float y, float r, t_bounds *b)
 
 /*
 ** rect_hits_wall:
-**   Recorre las celdas dentro de un rectángulo (b) y devuelve 1 si
-**   alguna corresponde a un muro, 0 si está libre.
+**   Iterates through cells within a rectangle (b)
 */
+
 static int	rect_hits_wall(t_map *m, const t_bounds *b)
 {
 	int	i;
@@ -75,10 +77,10 @@ static int	rect_hits_wall(t_map *m, const t_bounds *b)
 
 /*
 ** blocked_at:
-**   Comprueba si la posición (x, y) con radio r colisiona con un muro.
-**   Usa un rectángulo de colisión alrededor de la posición.
-**   Devuelve 1 si bloqueado, 0 si libre.
+**   Checks if position (x, y) with radius r collides with a wall.
+**   Uses a collision rectangle around the position.
 */
+
 int	blocked_at(t_map *m, float x, float y, float r)
 {
 	t_bounds	b;

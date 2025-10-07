@@ -6,18 +6,13 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:11:36 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/07 01:38:46 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:10:59 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-** init_mlx:
-**   Inicializa la MiniLibX y guarda el puntero en game->mlx.
-**   Devuelve 1 si la inicialización fue correcta, 0 si falló.
-*/
-int	init_mlx(t_game *game)
+static int	init_mlx(t_game *game)
 {
 	void	*mlx;
 
@@ -28,9 +23,7 @@ int	init_mlx(t_game *game)
 	return (1);
 }
 
-/* game_init_enemies.c (si prefieres separarlo) */
-
-int	game_init_enemies(t_game *g)
+static int	game_init_enemies(t_game *g)
 {
 	if (!find_enemies(g))
 	{
@@ -45,7 +38,7 @@ int	game_init_enemies(t_game *g)
 	return (1);
 }
 
-int	game_init_doors(t_game *g)
+static int	game_init_doors(t_game *g)
 {
 	if (!find_doors(g))
 	{
@@ -62,14 +55,14 @@ int	game_init_doors(t_game *g)
 
 /*
 ** init_game:
-**   Reserva e inicializa la estructura principal del juego.
-**   - Inicializa MLX.
-**   - Parsea el mapa (.cub) y carga texturas/colores.
-**   - Ajusta la posición inicial del jugador al centro de la celda.
-**   - Crea la ventana y entra en el bucle de eventos de MLX.
-**   En caso de error, muestra mensaje y libera la memoria asociada.
+**   Allocates and initializes the main game structure.
+**   - Initializes MLX.
+**   - Parses the map (.cub) and loads textures/colors.
+**   - Adjusts the player's initial position to the center of the cell.
+**   - Creates the window and enters the MLX event loop.
 */
-void	init_game(char *filename)
+
+static void	init_game(char *filename)
 {
 	t_game	*game;
 
@@ -97,13 +90,6 @@ void	init_game(char *filename)
 	mlx_loop(game->mlx);
 }
 
-/*
-** main:
-**   Punto de entrada del programa. Verifica los argumentos y
-**   lanza la inicialización del juego con el archivo .cub.
-**   Devuelve 0 si la ejecución comienza correctamente, 1 si el
-**   uso es incorrecto.
-*/
 int	main(int ac, char **av)
 {
 	if (ac != 2)
