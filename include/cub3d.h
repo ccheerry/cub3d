@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:02 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/07 17:05:20 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:47:30 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ double	sqrt(double x);
 # define WINDOW_HEIGHT 900
 # define TEXTURE_SIZE 64
 # define FOV 60
-# define PLAYER_RADIUS 0.30f   /* previously 0.25f -> keeps you further from walls */
+# define PLAYER_RADIUS 0.30f   /* keeps you further from walls */
 # define WALL_PADDING  0.05f   /* extra margin to prevent wall clipping */
 # define NEAR_CLIP     0.50f   /* minimum distance clipping in raycast */
 
