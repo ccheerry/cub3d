@@ -82,7 +82,7 @@ static int	apply_texture(t_game *game, t_map *map, char *key, char *path)
 		ft_putstr_fd("Error\nDuplicate texture definition: ", 2);
 		ft_putstr_fd(key, 2);
 		ft_putstr_fd("\n", 2);
-		return (0);
+		return (-1);
 	}
 	*spath = ft_tstr_from_cstr(path);
 	if (!load_texture(game, img, path))
@@ -90,7 +90,7 @@ static int	apply_texture(t_game *game, t_map *map, char *key, char *path)
 		ft_putstr_fd("Error\nFailed to load texture: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putstr_fd("\n", 2);
-		return (0);
+		return (-1);
 	}
 	return (1);
 }
@@ -99,9 +99,8 @@ bool	parse_elements(char *line, t_map *map, t_game *game)
 {
 	char	**parts;
 	char	*trimmed;
-	int		ok;
+	int		result;
 
-	ok = 0;
 	parts = ft_split(line, ' ');
 	if (!parts || !parts[0] || !parts[1])
 	{
@@ -111,12 +110,11 @@ bool	parse_elements(char *line, t_map *map, t_game *game)
 		return (false);
 	}
 	trimmed = trim_newline(parts[1]);
-	if (apply_texture(game, map, parts[0], trimmed))
-		ok = 1;
-	else if (apply_color(map, parts[0], trimmed))
-		ok = 1;
-	else
+	result = apply_texture(game, map, parts[0], trimmed);
+	if (result == 0)
+		result = apply_color(map, parts[0], trimmed);
+	if (result == 0)
 		ft_putstr_fd("Error\nUnknown element identifier\n", 2);
 	ft_free_array((void ***)&parts);
-	return (ok != 0);
+	return (result > 0);
 }

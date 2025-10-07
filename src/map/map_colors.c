@@ -44,17 +44,23 @@ int	apply_color(t_map *map, char *key, char *value)
 	if (ft_strcmp(key, "F") == 0)
 	{
 		if (map->colors.floor_r >= 0)
-			return (ft_putstr_fd("Error\nDuplicate floor color (F)\n", 2), 0);
+			return (ft_putstr_fd("Error\nDuplicate floor color (F)\n", 2), -1);
 		result = parse_color(value, &map->colors.floor_r,
 				&map->colors.floor_g, &map->colors.floor_b);
+		if (result == 0)
+			return (-1);
+		return (1);
 	}
 	else if (ft_strcmp(key, "C") == 0)
 	{
 		if (map->colors.ceiling_r >= 0)
 			return (ft_putstr_fd("Error\nDuplicate ceiling color (C)\n", 2),
-				0);
+				-1);
 		result = parse_color(value, &map->colors.ceiling_r,
 				&map->colors.ceiling_g, &map->colors.ceiling_b);
+		if (result == 0)
+			return (-1);
+		return (1);
 	}
-	return (result);
+	return (0);
 }
