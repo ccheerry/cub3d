@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 15:07:12 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 14:05:20 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:04:31 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 
 int	load_texture(t_game *g, t_img *dst, const char *path)
 {
+	int	len;
+
+	len = ft_strlen(path);
+	if (ft_strcmp(path + (len - 4), ".xpm") != 0)
+		return (0);
 	dst->img = mlx_xpm_file_to_image(g->mlx, (char *)path, &dst->w, &dst->h);
 	if (!dst->img)
 		return (0);

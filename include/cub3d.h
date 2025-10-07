@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:02 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/07 14:14:11 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:05:20 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ double	sqrt(double x);
 
 /* === Mouse look === */
 # ifndef MOUSE_SENS
-#  define MOUSE_SENS 0.05f/* degrees per pixel */
+#  define MOUSE_SENS 0.10f/* degrees per pixel */
 # endif
 # ifndef MOUSE_MAX_STEP
 #  define MOUSE_MAX_STEP 20/* max pixels per event */

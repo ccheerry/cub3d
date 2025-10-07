@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 15:22:02 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 14:04:02 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:02:06 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ t_img	*pick_wall_texture(t_game *g, int side, float dirx, float diry)
 		return (&g->map.textures.west);
 	}
 	if (diry > 0.0f)
-		return (&g->map.textures.south);
-	return (&g->map.textures.north);
+		return (&g->map.textures.north);
+	return (&g->map.textures.south);
 }
 
 /*
