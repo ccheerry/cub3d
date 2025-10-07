@@ -49,7 +49,10 @@ static void	set_player_angle(t_map *map, char c)
 static int	handle_player_at(t_map *map, int x, int y, char c)
 {
 	if (map->player.orientation != 0)
+	{
+		ft_putstr_fd("Error\nMultiple player positions found\n", 2);
 		return (0);
+	}
 	map->player.x = (float)x;
 	map->player.y = (float)y;
 	map->player.orientation = c;
@@ -103,5 +106,10 @@ bool	find_player(t_map *map)
 			map->width = w;
 		y++;
 	}
-	return (map->player.orientation != 0);
+	if (map->player.orientation == 0)
+	{
+		ft_putstr_fd("Error\nNo player position found\n", 2);
+		return (false);
+	}
+	return (true);
 }

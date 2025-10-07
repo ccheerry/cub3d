@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:05:25 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 02:39:27 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 03:23:36 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,8 @@ int	read_map_lines_loop(int fd, t_map *map)
 		if (is_map_line(line.data))
 		{
 			if (!is_valid_line(line.data))
-			{
-				ft_tstr_free(&line);
-				return (clear_grid_strings(map), 0);
-			}
+				return (ft_putstr_fd("Error\nInvalid character in map\n", 2),
+					ft_tstr_free(&line), clear_grid_strings(map), 0);
 			push_map_line(map, line.data);
 			ft_tstr_free(&line);
 		}
@@ -108,7 +106,8 @@ int	read_map_lines_loop(int fd, t_map *map)
 		{
 			ft_tstr_free(&line);
 			if (!check_no_content_after_map(fd))
-				return (clear_grid_strings(map), 0);
+				return (ft_putstr_fd("Error\nContent found after map\n", 2),
+					clear_grid_strings(map), 0);
 			break ;
 		}
 		line = get_next_line(fd);
@@ -135,6 +134,7 @@ bool	parse_map_grid(int fd, t_map *map, char *first_line)
 	map->height = map->grid.size;
 	if (map->height < 3)
 	{
+		ft_putstr_fd("Error\nMap too small (minimum 3 rows)\n", 2);
 		clear_grid_strings(map);
 		return (false);
 	}

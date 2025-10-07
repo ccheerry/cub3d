@@ -25,6 +25,7 @@ static int	parse_color(char *str, int *r, int *g, int *b)
 	parts = ft_split(str, ',');
 	if (!parts || !parts[0] || !parts[1] || !parts[2] || parts[3])
 	{
+		ft_putstr_fd("Error\nInvalid color format (must be R,G,B)\n", 2);
 		if (parts)
 			ft_free_array((void ***)&parts);
 		return (0);
@@ -34,7 +35,10 @@ static int	parse_color(char *str, int *r, int *g, int *b)
 	*b = ft_atoi(parts[2]);
 	ft_free_array((void ***)&parts);
 	if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
+	{
+		ft_putstr_fd("Error\nColor values must be in range [0-255]\n", 2);
 		return (0);
+	}
 	return (1);
 }
 
@@ -47,11 +51,23 @@ static int	parse_color(char *str, int *r, int *g, int *b)
 */
 int	apply_color(t_map *map, char *key, char *value)
 {
+	int	result;
+
+	result = 0;
 	if (ft_strcmp(key, "F") == 0)
-		return (parse_color(value, &map->colors.floor_r,
-				&map->colors.floor_g, &map->colors.floor_b));
-	if (ft_strcmp(key, "C") == 0)
-		return (parse_color(value, &map->colors.ceiling_r,
-				&map->colors.ceiling_g, &map->colors.ceiling_b));
-	return (0);
+	{
+		if (map->colors.floor_r >= 0)
+			return (ft_putstr_fd("Error\nDuplicate floor color (F)\n", 2), 0);
+		result = parse_color(value, &map->colors.floor_r,
+				&map->colors.floor_g, &map->colors.floor_b);
+	}
+	else if (ft_strcmp(key, "C") == 0)
+	{
+		if (map->colors.ceiling_r >= 0)
+			return (ft_putstr_fd("Error\nDuplicate ceiling color (C)\n", 2),
+				0);
+		result = parse_color(value, &map->colors.ceiling_r,
+				&map->colors.ceiling_g, &map->colors.ceiling_b);
+	}
+	return (result);
 }

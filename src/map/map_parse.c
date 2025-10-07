@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 18:41:32 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/02 19:31:27 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 03:23:58 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,20 @@ static int	process_until_map(int fd, t_map *map, t_game *game)
 			&& !is_map_line(line.data))
 		{
 			if (!parse_elements(line.data, map, game))
-			{
-				ft_tstr_free(&line);
-				return (0);
-			}
+				return (ft_tstr_free(&line), 0);
 		}
 		else if (is_map_line(line.data))
 		{
 			if (!is_valid_line(line.data))
-				return (ft_tstr_free(&line), 0);
+				return (ft_putstr_fd("Error\nInvalid character\n", 2),
+					ft_tstr_free(&line), 0);
 			if (!parse_map_grid(fd, map, line.data))
 				return (ft_tstr_free(&line), 0);
 			return (ft_tstr_free(&line), 1);
 		}
 		(ft_tstr_free(&line), line = get_next_line(fd));
 	}
+	ft_putstr_fd("Error\nEmpty or invalid file\n", 2);
 	return (ft_tstr_free(&line), 0);
 }
 
@@ -80,10 +79,11 @@ bool	parse_map_file(char *filename, t_map *map, t_game *game)
 	int	ok;
 
 	if (!has_cub_ext(filename))
-		return (false);
+		return (ft_putstr_fd("Error\nFile must have .cub extension\n", 2),
+			false);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (false);
+		return (ft_putstr_fd("Error\nCould not open file\n", 2), false);
 	ok = process_until_map(fd, map, game);
 	close(fd);
 	get_next_line(-1);

@@ -21,19 +21,21 @@
 bool	all_elements_present(t_map *map)
 {
 	if (!map->textures.north.img)
-		return (false);
+		return (ft_putstr_fd("Error\nMissing north texture (NO)\n", 2), false);
 	if (!map->textures.south.img)
-		return (false);
+		return (ft_putstr_fd("Error\nMissing south texture (SO)\n", 2), false);
 	if (!map->textures.east.img)
-		return (false);
+		return (ft_putstr_fd("Error\nMissing east texture (EA)\n", 2), false);
 	if (!map->textures.west.img)
-		return (false);
+		return (ft_putstr_fd("Error\nMissing west texture (WE)\n", 2), false);
 	if (map->colors.floor_r < 0 || map->colors.floor_g < 0
 		|| map->colors.floor_b < 0)
-		return (false);
+		return (ft_putstr_fd("Error\nMissing or invalid floor color (F)\n", 2),
+			false);
 	if (map->colors.ceiling_r < 0 || map->colors.ceiling_g < 0
 		|| map->colors.ceiling_b < 0)
-		return (false);
+		return (ft_putstr_fd("Error\nMissing or invalid ceiling color (C)\n",
+				2), false);
 	return (true);
 }
 
@@ -46,12 +48,14 @@ bool	all_elements_present(t_map *map)
 bool	validate_textures(t_map *map)
 {
 	if (!map->textures.north.img)
-		return (false);
+		return (ft_putstr_fd("Error\nFailed to load north texture\n", 2),
+			false);
 	if (!map->textures.south.img)
-		return (false);
+		return (ft_putstr_fd("Error\nFailed to load south texture\n", 2),
+			false);
 	if (!map->textures.east.img)
-		return (false);
+		return (ft_putstr_fd("Error\nFailed to load east texture\n", 2), false);
 	if (!map->textures.west.img)
-		return (false);
+		return (ft_putstr_fd("Error\nFailed to load west texture\n", 2), false);
 	return (true);
 }

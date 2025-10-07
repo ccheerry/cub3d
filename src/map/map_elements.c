@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_elements.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albcamac <albcamac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:22:19 by albcamac          #+#    #+#             */
-/*   Updated: 2025/09/30 17:27:25 by albcamac         ###   ########.fr       */
+/*   Updated: 2025/10/07 03:28:02 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,20 @@ static int	apply_texture(t_game *game, t_map *map, char *key, char *path)
 	if (!get_tx_targ(map, key, &img, &spath))
 		return (0);
 	if (spath->data)
+	{
+		ft_putstr_fd("Error\nDuplicate texture definition: ", 2);
+		ft_putstr_fd(key, 2);
+		ft_putstr_fd("\n", 2);
 		return (0);
+	}
 	*spath = ft_tstr_from_cstr(path);
 	if (!load_texture(game, img, path))
+	{
+		ft_putstr_fd("Error\nFailed to load texture: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd("\n", 2);
 		return (0);
+	}
 	return (1);
 }
 
@@ -107,6 +117,7 @@ bool	parse_elements(char *line, t_map *map, t_game *game)
 	parts = ft_split(line, ' ');
 	if (!parts || !parts[0] || !parts[1])
 	{
+		ft_putstr_fd("Error\nInvalid element format\n", 2);
 		if (parts)
 			ft_free_array((void ***)&parts);
 		return (false);
@@ -116,6 +127,8 @@ bool	parse_elements(char *line, t_map *map, t_game *game)
 		ok = 1;
 	else if (apply_color(map, parts[0], trimmed))
 		ok = 1;
+	else
+		ft_putstr_fd("Error\nUnknown element identifier\n", 2);
 	ft_free_array((void ***)&parts);
 	return (ok != 0);
 }

@@ -119,9 +119,11 @@ bool	is_map_surrounded(t_map *map)
 			if (cell_requires_wall(row, x))
 			{
 				if (y == 0 || y == map->height - 1)
-					return (false);
+					return (ft_putstr_fd("Error\nMap not closed: "
+							"walkable cell on border\n", 2), false);
 				if (neighbors_invalid(map, y, x))
-					return (false);
+					return (ft_putstr_fd("Error\nMap not closed: "
+							"walkable cell exposed to void\n", 2), false);
 			}
 			x++;
 		}

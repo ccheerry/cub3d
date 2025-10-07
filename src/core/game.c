@@ -86,8 +86,7 @@ void	init_game(char *filename)
 		return (ft_putstr_fd("Error:\nMLX init failed\n", 2),
 			free(game));
 	if (!parse_map_file(filename, &game->map, game))
-		return (ft_putstr_fd("Error:\nInvalid map\n", 2),
-			free_mlx(game), free_map(&game->map), free(game));
+		return (free_mlx(game), free_map(&game->map), free(game));
 	game->map.player.x += 0.5f;
 	game->map.player.y += 0.5f;
 	game_init_enemies(game);
