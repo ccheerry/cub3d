@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:06:32 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 13:53:49 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:20:35 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static void	set_player_angle(t_map *map, char c)
 	else if (c == 'S')
 		map->player.angle = 270;
 	else if (c == 'E')
-		map->player.angle = 0;
-	else if (c == 'W')
 		map->player.angle = 180;
+	else if (c == 'W')
+		map->player.angle = 0;
 }
 
 static int	handle_player_at(t_map *map, int x, int y, char c)
