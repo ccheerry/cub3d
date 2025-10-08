@@ -27,7 +27,7 @@ El jugador navega por un laberinto renderizado en pseudo-3D, con texturas en las
 
 ## 🎮 Vista Previa
 
-![Gameplay](docs/game.gif)
+![Gameplay](demo/game.gif)
 
 ---
 
