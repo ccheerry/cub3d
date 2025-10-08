@@ -6,40 +6,11 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 23:13:29 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 19:05:15 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:50:04 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-/*
-** ray_init_basic:
-**   Initializes the basic ray parameters:
-**   - Directions (dirx, diry) from the angle.
-**   - Map cell (mapx, mapy) from the player's position.
-**   - Delta distances (ddx, ddy) for DDA, avoiding division by zero.
-*/
-
-static void	ray_init_basic(t_game *g, t_ray *r, float ang)
-{
-	double	dx;
-	double	dy;
-
-	dx = -cos(ang);
-	dy = -sin(ang);
-	r->dirx = (float)dx;
-	r->diry = (float)dy;
-	r->mapx = (int)g->map.player.x;
-	r->mapy = (int)g->map.player.y;
-	if (r->dirx == 0.0f)
-		r->ddx = (float)fabs(1.0 / 1e-6);
-	else
-		r->ddx = (float)fabs(1.0 / r->dirx);
-	if (r->diry == 0.0f)
-		r->ddy = (float)fabs(1.0 / 1e-6);
-	else
-		r->ddy = (float)fabs(1.0 / r->diry);
-}
 
 /*
 ** ray_init_steps:
@@ -94,29 +65,66 @@ static void	ray_dda(t_game *g, t_ray *r)
 }
 
 /*
+** init_camera_plane:
+**   Sets up the camera direction and plane vectors based on player angle.
+**   The plane is perpendicular to the direction, scaled by tan(FOV/2).
+*/
+
+static void	init_camera_plane(t_game *g, t_camera *cam)
+{
+	double	ang;
+	double	fov_rad;
+	double	plane_len;
+
+	ang = (double)g->map.player.angle * M_PI / 180.0;
+	cam->dirx = (float)(-cos(ang));
+	cam->diry = (float)(-sin(ang));
+	fov_rad = (double)FOV * M_PI / 180.0;
+	plane_len = tan(fov_rad / 2.0);
+	cam->planex = (float)(-(cam->diry) * plane_len);
+	cam->planey = (float)((cam->dirx) * plane_len);
+}
+
+/*
 ** cast_one_column:
 **   Casts a ray for screen column 'x' and draws the visible wall:
-**   - Calculates the ray angle (compute_ray_angle).
+**   - Uses camera plane method to calculate ray direction.
 **   - Initializes/advances the DDA.
-**   - Applies fisheye correction by multiplying by cos(angle_diff).
+**   - No fisheye correction needed with plane method.
 **   - Calculates vertical drawing boundaries (compute_bounds).
 **   - Fills the texturing context and paints the column (draw_column_textured).
 */
 
+static void	setup_ray(t_game *g, int x, t_ray *r)
+{
+	t_camera	cam;
+	float		camerax;
+
+	init_camera_plane(g, &cam);
+	camerax = 2.0f * x / (float)WINDOW_WIDTH - 1.0f;
+	r->dirx = cam.dirx + cam.planex * camerax;
+	r->diry = cam.diry + cam.planey * camerax;
+	r->mapx = (int)g->map.player.x;
+	r->mapy = (int)g->map.player.y;
+	if (r->dirx == 0.0f)
+		r->ddx = (float)fabs(1.0 / 1e-6);
+	else
+		r->ddx = (float)fabs(1.0 / r->dirx);
+	if (r->diry == 0.0f)
+		r->ddy = (float)fabs(1.0 / 1e-6);
+	else
+		r->ddy = (float)fabs(1.0 / r->diry);
+	ray_init_steps(g, r);
+}
+
 void	cast_one_column(t_game *g, int x)
 {
-	double		ang;
-	double		player_ang;
 	t_ray		r;
 	t_colbounds	b;
 	t_drawctx	ctx;
 
-	ang = compute_ray_angle(g, x);
-	ray_init_basic(g, &r, (float)ang);
-	ray_init_steps(g, &r);
+	setup_ray(g, x, &r);
 	ray_dda(g, &r);
-	player_ang = (double)g->map.player.angle * M_PI / 180.0;
-	r.perp = r.perp * (float)cos(ang - player_ang);
 	g->zbuf[x] = r.perp;
 	compute_bounds(r.perp, &b);
 	ctx.start = b.start;

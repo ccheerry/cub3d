@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 17:08:08 by albcamac          #+#    #+#             */
-/*   Updated: 2025/10/07 14:00:58 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:47:51 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,36 @@ void	advance_dda_step(t_ray *r)
 
 /*
 ** finalize_hit:
-**   Calculates the final perpendicular distance to the hit wall and
-**   determines the exact hit point in world space (hitx, hity).
-**   Also applies a minimum "clip" to avoid distortions.
+**   Calculates perpendicular distance to wall using proper geometry.
+**   For X-sides: distance to vertical wall at mapx or mapx+1
+**   For Y-sides: distance to horizontal wall at mapy or mapy+1
 */
 
 void	finalize_hit(t_game *g, t_ray *r)
 {
-	float	eps;
+	float	wall_dist;
+	float	wall_x;
+	float	wall_y;
 
 	if (r->side == 0)
-		r->perp = r->sdx - r->ddx;
+	{
+		if (r->stepx > 0)
+			wall_x = (float)r->mapx;
+		else
+			wall_x = (float)(r->mapx + 1);
+		wall_dist = (wall_x - g->map.player.x) / r->dirx;
+	}
 	else
-		r->perp = r->sdy - r->ddy;
+	{
+		if (r->stepy > 0)
+			wall_y = (float)r->mapy;
+		else
+			wall_y = (float)(r->mapy + 1);
+		wall_dist = (wall_y - g->map.player.y) / r->diry;
+	}
+	r->perp = wall_dist;
 	if (r->perp < NEAR_CLIP)
 		r->perp = NEAR_CLIP;
-	eps = 0.0005f;
-	r->hitx = g->map.player.x + r->dirx * (r->perp - eps);
-	r->hity = g->map.player.y + r->diry * (r->perp - eps);
+	r->hitx = g->map.player.x + r->dirx * (wall_dist - 0.0005f);
+	r->hity = g->map.player.y + r->diry * (wall_dist - 0.0005f);
 }

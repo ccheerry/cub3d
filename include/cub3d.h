@@ -6,7 +6,7 @@
 /*   By: acerezo- <acerezo-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 19:10:02 by acerezo-          #+#    #+#             */
-/*   Updated: 2025/10/07 17:47:30 by acerezo-         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:51:20 by acerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ double	sqrt(double x);
 # define WINDOW_HEIGHT 900
 # define TEXTURE_SIZE 64
 # define FOV 60
-# define PLAYER_RADIUS 0.30f   /* keeps you further from walls */
+# define PLAYER_RADIUS 0.35f   /* player collision radius */
 # define WALL_PADDING  0.05f   /* extra margin to prevent wall clipping */
 # define NEAR_CLIP     0.50f   /* minimum distance clipping in raycast */
 
@@ -67,7 +67,7 @@ double	sqrt(double x);
 #  define ENEMY_FRAMES 4
 # endif
 # ifndef ANIM_TPF
-#  define ANIM_TPF 8
+#  define ANIM_TPF 45
 # endif
 # ifndef SPRITE_KEYCOLOR
 #  define SPRITE_KEYCOLOR 0x00FF00FF
@@ -302,6 +302,14 @@ typedef struct s_map
 	t_colors	colors;
 	t_textures	textures;
 }	t_map;
+
+typedef struct s_camera
+{
+	float	dirx;
+	float	diry;
+	float	planex;
+	float	planey;
+}	t_camera;
 
 typedef struct s_game
 {
