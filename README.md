@@ -12,7 +12,7 @@
 
 ---
 
-[📖 Descripción](#-descripción-del-proyecto) • [🎮 Vista Previa](#-vista-previa) •  [🔍 Raycasting](#-qué-es-el-raycasting) • [🛠️ Técnicas](#-técnicas-implementadas) • [📦 Instalación](#-instalación) • [🎮 Uso](#-uso) • [🗺️ Mapa](#-formato-de-mapa) • [🏗️ Arquitectura](#-arquitectura-del-proyecto) • [👥 Autores](#-autores)
+[🎮 Vista Previa](#-vista-previa) •  [🔍 Raycasting](#-qué-es-el-raycasting) • [🛠️ Técnicas](#-técnicas-implementadas) • [📦 Instalación](#-instalación) • [🎮 Uso](#-uso) • [🗺️ Mapa](#-formato-de-mapa) • [🏗️ Arquitectura](#-arquitectura-del-proyecto) • [👥 Autores](#-autores)
 </div>
 
 ---
