@@ -23,6 +23,10 @@
 
 El jugador navega por un laberinto renderizado en pseudo-3D, con texturas en las paredes, colores personalizables para techo y suelo, y controles fluidos de movimiento y rotación.
 
+## ✅ Nota final
+
+![Grade](https://i.imgur.com/LQRaa4H.png "Grade")
+
 ---
 
 ## 🎮 Vista Previa
